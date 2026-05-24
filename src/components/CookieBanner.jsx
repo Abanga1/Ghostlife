@@ -9,7 +9,12 @@ export default function CookieBanner() {
   }, [])
 
   function accept() {
-    localStorage.setItem('cookie_consent', 'true')
+    localStorage.setItem('cookie_consent', 'accepted')
+    setShow(false)
+  }
+
+  function decline() {
+    localStorage.setItem('cookie_consent', 'declined')
     setShow(false)
   }
 
@@ -21,9 +26,14 @@ export default function CookieBanner() {
         This site uses cookies to improve your experience.{' '}
         <Link to="/privacy">Learn more</Link>
       </p>
-      <button className="btn btn--primary cookie-banner__btn" onClick={accept}>
-        Accept
-      </button>
+      <div className="cookie-banner__actions">
+        <button className="btn btn--outline cookie-banner__btn" onClick={decline}>
+          Decline
+        </button>
+        <button className="btn btn--primary cookie-banner__btn" onClick={accept}>
+          Accept
+        </button>
+      </div>
     </div>
   )
 }

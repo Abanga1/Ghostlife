@@ -1,10 +1,16 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 import Footer from '../components/Footer'
+import SEO from '../components/SEO'
 
 export default function ThankYouPage() {
   return (
     <>
+      <SEO
+        title="Thank You"
+        description="You're in. Check your inbox for Chapter One and your quiz results."
+        path="/thank-you"
+      />
       <nav className="page-nav">
         <div className="container">
           <Link to="/" className="page-nav__back">← Home</Link>

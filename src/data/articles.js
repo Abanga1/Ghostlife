@@ -1,5 +1,71 @@
 export const ARTICLES = [
   {
+    slug: "feeling-like-youre-just-existing-not-living",
+    title: "Feeling Like You're Just Existing, Not Living",
+    metaDescription:
+      "You wake up, you do what needs doing, you go to sleep. The days pass. But somewhere in there, you stopped feeling like any of it was actually yours. Here's what that means.",
+    date: "2026-05-24",
+    readTime: "8 min read",
+    intro:
+      "You're not in crisis. Nobody looking at your life from the outside would see anything wrong. You have things — responsibilities, routines, maybe even people who love you. But there's this quiet, persistent feeling underneath all of it: that you're going through the motions of a life without actually being inside it. That you're existing. Not living.",
+    sections: [
+      {
+        heading: "Nobody talks about this version of it",
+        body: `Depression gets talked about. Anxiety gets talked about. Burnout has become almost a badge. But this thing — the low-grade flatness, the sense that your own life feels strangely distant, the way you can complete a full day and feel nothing about it at all — doesn't have a clean name that most people know.
+
+So people carry it quietly. They assume it's just what adulthood feels like. They assume everyone feels this way and they're just not coping as well. They wait for it to pass, or they stay busy enough not to notice it for long.
+
+It doesn't pass. And the staying busy makes it worse.
+
+If you've felt this — not depressed exactly, not anxious exactly, just somehow not fully present in your own life — this article is the one I wish existed when I needed it.`,
+      },
+      {
+        heading: "What existing without living actually feels like",
+        body: `It has a particular texture. You can recognise it in the small things.
+
+You finish a meal and can't remember tasting it. You have a conversation and realise halfway through that you've been performing attentiveness without actually listening. You reach the weekend and feel nothing — not relief, not anticipation, just more time to fill. You look at your life on paper — the job, the place you live, the people in it — and nothing inside you responds to any of it.
+
+It's not that things are bad. It's that nothing lands. You're present enough to function and absent enough that functioning is all you're doing.
+
+The cruelest part is that you're often very good at looking fine. You know the right things to say. You show up. You meet your obligations. Nobody would guess. And that gap — between how you appear and how hollow things feel on the inside — becomes its own kind of exhausting.`,
+      },
+      {
+        heading: "How you got here",
+        body: `It rarely happens overnight. It accumulates.
+
+At some point — maybe years ago, maybe so gradually you couldn't mark the moment — you started living for the structure rather than for the experience. You started doing what was next instead of what was chosen. Career decisions made by default. Relationships sustained by momentum. Days shaped by obligation.
+
+The self that has preferences, that gets excited, that knows what it actually wants — that self got quieter and quieter until you stopped hearing it entirely.
+
+**This is the mechanism.** When life becomes something you manage rather than something you inhabit, the felt sense of living starts to drain away. Not because something is wrong with you. Because you've been running on autopilot for so long that the part of you that was supposed to be at the wheel has gone somewhere else.
+
+Some people reach this place after a loss. Some after achieving a goal that was supposed to fix everything and didn't. Some simply wake up one day in their thirties or forties and realise, with a kind of quiet dread, that this is the life — and they don't feel it.`,
+      },
+      {
+        heading: "Why trying harder makes it worse",
+        body: `The instinct, when you notice this, is to do more. Pursue a hobby. Plan a trip. Make a change — quit the job, leave the relationship, move cities. Force yourself to feel something.
+
+Sometimes these things help briefly. The novelty creates a temporary signal. But within weeks, the flatness returns. Because the problem isn't the circumstances. The problem is the disconnection underneath them. You can change the scenery and carry the same absence with you.
+
+The other trap is understanding it intellectually without it changing anything. Reading about it. Analysing it. Building elaborate frameworks for why you are the way you are. The mind becomes very good at discussing the problem while the body keeps living the same day on repeat.
+
+Neither doing more nor understanding more closes the gap. What closes it is something different — and most people never find it because they're too busy with the first two.`,
+      },
+      {
+        heading: "What it is actually asking you to do",
+        body: `The feeling of just existing is not a malfunction. It's a signal. Specifically, it's the signal that the version of your life you're living has become so far from what you actually chose — or would choose — that your inner experience has quietly withdrawn its participation.
+
+The path back isn't a dramatic overhaul. It's not quitting everything and starting again. It's locating precisely where the disconnection started and what it would take to close that specific gap. That's different for someone who numbed out after a loss than for someone who never stopped to ask what they wanted in the first place.
+
+There are five recognisable stages to this kind of disconnection. Each one has a different root, and more importantly, each one has a different way forward. What works for someone in Stage 2 can make things worse for someone in Stage 4. Generic advice about "living more intentionally" fails because it ignores the stage.
+
+The Ghost Life Syndrome is a book about these five stages — what they look like from the inside, what creates them, and what moving through each one actually requires. Not theory. Not affirmations. A map of the specific territory you're in.
+
+If the opening of this article named something you've been carrying — read it. Not because it will solve everything. But because being named, precisely, is usually the first real movement people make after years of standing still.`,
+      },
+    ],
+  },
+  {
     slug: "why-do-i-feel-like-im-watching-my-life-from-a-distance",
     title: "Why Do I Feel Like I'm Watching My Life From a Distance?",
     metaDescription:

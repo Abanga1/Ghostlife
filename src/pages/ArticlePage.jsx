@@ -2,6 +2,7 @@ import React from 'react'
 import { Link, useParams, Navigate } from 'react-router-dom'
 import { ARTICLES } from '../data/articles'
 import Footer from '../components/Footer'
+import SEO from '../components/SEO'
 
 const BOOK_URL = 'https://ghostlifesyndrome.lemonsqueezy.com/checkout/buy/61f7d117-9bee-48b0-ab43-c667f95f4ebc'
 
@@ -42,6 +43,11 @@ export default function ArticlePage() {
 
   return (
     <>
+      <SEO
+        title={article.title}
+        description={article.metaDescription}
+        path={`/blog/${article.slug}`}
+      />
       <nav className="page-nav">
         <div className="container">
           <Link to="/blog" className="page-nav__back">← All articles</Link>

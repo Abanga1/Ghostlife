@@ -1,6 +1,7 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 import Footer from '../components/Footer'
+import SEO from '../components/SEO'
 
 const steps = [
   { num: '01', title: 'Apply', desc: 'Send a short note about your platform and audience. We review every application.' },
@@ -18,6 +19,11 @@ const rules = [
 export default function AffiliatePage() {
   return (
     <>
+      <SEO
+        title="Affiliate Programme"
+        description="Earn commission sharing the Ghost Life Syndrome. Simple links, honest product, 30% per sale."
+        path="/affiliate"
+      />
       <nav className="page-nav">
         <div className="container">
           <Link to="/" className="page-nav__back">← Back</Link>

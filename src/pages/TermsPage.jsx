@@ -1,6 +1,7 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 import Footer from '../components/Footer'
+import SEO from '../components/SEO'
 
 function Section({ title, children }) {
   return (
@@ -14,6 +15,11 @@ function Section({ title, children }) {
 export default function TermsPage() {
   return (
     <>
+      <SEO
+        title="Terms of Service"
+        description="Terms of service for Ghost Life Syndrome."
+        path="/terms"
+      />
       <nav className="page-nav">
         <div className="container">
           <Link to="/" className="page-nav__back">← Back</Link>

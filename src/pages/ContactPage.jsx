@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
 import Footer from '../components/Footer'
+import SEO from '../components/SEO'
 
 // Set VITE_CONTACT_FORM_URL in your .env.local to a Formspree endpoint
 // e.g. https://formspree.io/f/your_form_id
@@ -37,6 +38,11 @@ export default function ContactPage() {
 
   return (
     <>
+      <SEO
+        title="Contact"
+        description="Get in touch with Isaac about the Ghost Life Syndrome book, written assessment, or coaching programme."
+        path="/contact"
+      />
       <nav className="page-nav">
         <div className="container">
           <Link to="/" className="page-nav__back">← Back</Link>

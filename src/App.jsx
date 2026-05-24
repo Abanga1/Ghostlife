@@ -1,5 +1,6 @@
 import React, { useState, useCallback, useEffect } from 'react'
 import { Routes, Route } from 'react-router-dom'
+import SEO from './components/SEO'
 import Nav from './components/Nav'
 import Hero from './components/Hero'
 import PainSection from './components/PainSection'
@@ -45,6 +46,10 @@ function HomePage() {
 
   return (
     <>
+      <SEO
+        description="Are you living your life or watching it from a distance? The Ghost Life Syndrome names what you've been feeling — and maps the way back."
+        path="/"
+      />
       {showExit && (
         <ExitIntent onClose={handleExitClose} onEmailClick={scrollToEmail} />
       )}

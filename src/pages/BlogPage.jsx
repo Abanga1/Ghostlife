@@ -2,6 +2,7 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 import { ARTICLES } from '../data/articles'
 import Footer from '../components/Footer'
+import SEO from '../components/SEO'
 
 function formatDate(iso) {
   return new Date(iso).toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' })
@@ -10,6 +11,11 @@ function formatDate(iso) {
 export default function BlogPage() {
   return (
     <>
+      <SEO
+        title="Writing"
+        description="Articles on emotional disconnection, self-loss, and the path back. No productivity tips. No optimism. Just honest maps."
+        path="/blog"
+      />
       <nav className="page-nav">
         <div className="container">
           <Link to="/" className="page-nav__back">← Back</Link>

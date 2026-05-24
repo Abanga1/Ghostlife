@@ -88,20 +88,12 @@ export default function Quiz() {
     }
     setGating(true)
     setGateError('')
+    const payload = { name: gateName, email: gateEmail, stage: stage?.title, score, source: 'quiz-result-gate' }
     try {
-      if (FORM_URL) {
-        await fetch(FORM_URL, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
-          body: JSON.stringify({
-            name: gateName,
-            email: gateEmail,
-            stage: stage?.title,
-            score,
-            source: 'quiz-result-gate',
-          }),
-        })
-      }
+      await Promise.all([
+        FORM_URL ? fetch(FORM_URL, { method: 'POST', headers: { 'Content-Type': 'application/json', Accept: 'application/json' }, body: JSON.stringify(payload) }) : Promise.resolve(),
+        fetch('/api/subscribe', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) }),
+      ])
     } catch { /* non-blocking — show result regardless */ }
     setGating(false)
     setGated(true)
