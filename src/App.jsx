@@ -1,5 +1,6 @@
 import React, { useState, useCallback, useEffect } from 'react'
 import { Routes, Route } from 'react-router-dom'
+import { loadGA, isConsented } from './analytics'
 import SEO from './components/SEO'
 import Nav from './components/Nav'
 import Hero from './components/Hero'
@@ -25,6 +26,8 @@ import ArticlePage from './pages/ArticlePage'
 function HomePage() {
   const [showExit, setShowExit] = useState(false)
   const [exitFired, setExitFired] = useState(false)
+
+  useEffect(() => { if (isConsented()) loadGA() }, [])
 
   function handleExitClose(reason) {
     setShowExit(false)

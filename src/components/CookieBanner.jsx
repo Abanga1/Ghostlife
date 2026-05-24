@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
+import { loadGA } from '../analytics'
 
 export default function CookieBanner() {
   const [show, setShow] = useState(false)
@@ -11,6 +12,7 @@ export default function CookieBanner() {
   function accept() {
     localStorage.setItem('cookie_consent', 'accepted')
     setShow(false)
+    loadGA()
   }
 
   function decline() {
