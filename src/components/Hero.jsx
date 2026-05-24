@@ -28,13 +28,6 @@ export default function Hero({ onEmailClick }) {
           </div>
           <p className="hero__proof">6,000+ readers · Rated 4.9 stars</p>
         </div>
-        <div className="hero__book">
-          <img
-            src="/cover.png"
-            alt="The Ghost Life Syndrome book cover"
-            className="hero__cover"
-          />
-        </div>
       </div>
       <p className="hero__scroll">scroll</p>
     </section>
