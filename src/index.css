@@ -74,11 +74,6 @@ body {
   display: flex;
   align-items: center;
   background-color: var(--dark);
-  background-image:
-    linear-gradient(to right, rgba(20,20,20,0.92) 35%, transparent 65%),
-    url('/cover.png');
-  background-size: cover;
-  background-position: center center;
   color: var(--cream);
   padding: 120px 24px 100px;
   position: relative;
@@ -96,12 +91,14 @@ body {
 .hero__inner {
   display: flex;
   align-items: center;
+  gap: 80px;
   position: relative;
   z-index: 1;
 }
 
 .hero__text {
-  max-width: 560px;
+  flex: 1;
+  min-width: 0;
 }
 
 .hero__eyebrow {
@@ -149,6 +146,25 @@ body {
 }
 
 
+.hero__book {
+  flex-shrink: 0;
+  width: 280px;
+}
+
+.hero__cover {
+  width: 100%;
+  display: block;
+  box-shadow: -20px 20px 60px rgba(0,0,0,0.6), 0 4px 20px rgba(0,0,0,0.4);
+  border-radius: 2px;
+  transform: perspective(800px) rotateY(-4deg);
+  transition: transform 0.4s ease, box-shadow 0.4s ease;
+}
+
+.hero__cover:hover {
+  transform: perspective(800px) rotateY(-1deg) translateY(-4px);
+  box-shadow: -24px 28px 70px rgba(0,0,0,0.65), 0 4px 20px rgba(0,0,0,0.4);
+}
+
 .hero__scroll {
   position: absolute;
   bottom: 32px;
@@ -167,17 +183,11 @@ body {
 }
 
 @media (max-width: 768px) {
-  .hero {
-    background-image:
-      linear-gradient(to bottom, rgba(20,20,20,0.92) 60%, rgba(20,20,20,0.75) 100%),
-      url('/cover.png');
-    background-position: center top;
-    text-align: center;
-  }
-  .hero__text { max-width: 100%; }
+  .hero__inner { flex-direction: column-reverse; gap: 48px; text-align: center; }
+  .hero__book { width: 200px; }
   .hero__sub { margin-left: auto; margin-right: auto; }
   .hero__cta-group { justify-content: center; }
-  .hero__proof { justify-content: center; }
+  .hero__proof { text-align: center; }
 }
 
 /* ── Pain section ── */
