@@ -3,7 +3,7 @@ import React, { useEffect, useRef } from 'react'
 const URLS = {
   book:       'https://ghostlifesyndrome.lemonsqueezy.com/checkout/buy/61f7d117-9bee-48b0-ab43-c667f95f4ebc',
   assessment: 'https://ghostlifesyndrome.lemonsqueezy.com/checkout/buy/34856ebd-5d34-4e1b-9973-212f8ae74c4e',
-  programme:  'https://ghostlifesyndrome.lemonsqueezy.com/checkout/buy/61f7d117-9bee-48b0-ab43-c667f95f4ebc', // TODO: replace with programme product URL
+  programme:  'https://ghostlifesyndrome.lemonsqueezy.com/checkout/buy/2fe39d4a-9fe7-4666-87e3-abc2484e24d6',
 }
 
 const TIERS = [
