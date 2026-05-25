@@ -249,6 +249,10 @@ function ClientRow({ c, isSubscriber, pw, onStageUpdated }) {
   const sent = sessions.filter(s => s.status === 'sent').length
   const draft = sessions.filter(s => s.status === 'draft').length
   const [saving, setSaving] = useState(false)
+  const [expanded, setExpanded] = useState(false)
+  const [history, setHistory] = useState([])
+  const [loadingHistory, setLoadingHistory] = useState(false)
+  const [expandedSession, setExpandedSession] = useState(null)
 
   async function updateStage(stage) {
     setSaving(true)
@@ -262,34 +266,100 @@ function ClientRow({ c, isSubscriber, pw, onStageUpdated }) {
     } finally { setSaving(false) }
   }
 
+  async function toggleExpand() {
+    if (!expanded && history.length === 0 && sent > 0) {
+      setLoadingHistory(true)
+      try {
+        const res = await fetch(`/api/sessions?client_id=${c.id}`, { headers: authHeaders(pw) })
+        if (res.ok) setHistory(await res.json())
+      } finally { setLoadingHistory(false) }
+    }
+    setExpanded(o => !o)
+  }
+
   return (
-    <div style={s.clientRow}>
-      <div style={{ flex: 1 }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 4 }}>
-          <p style={{ fontWeight: 700, fontSize: 16, fontFamily: 'Playfair Display,Georgia,serif' }}>{c.name}</p>
-          {isSubscriber && <span style={s.badge}>Potential</span>}
+    <div style={{ borderBottom: '1px solid rgba(26,26,26,0.1)' }}>
+      <div style={{ ...s.clientRow, borderBottom: 'none', cursor: isSubscriber ? 'default' : 'pointer' }}
+        onClick={isSubscriber ? undefined : toggleExpand}>
+        <div style={{ flex: 1 }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 4 }}>
+            <p style={{ fontWeight: 700, fontSize: 16, fontFamily: 'Playfair Display,Georgia,serif' }}>{c.name}</p>
+            {isSubscriber && <span style={s.badge}>Potential</span>}
+          </div>
+          <p style={{ fontSize: 13, color: '#4A3728', marginBottom: 8 }}>{c.email}</p>
+          {!isSubscriber && (
+            <select
+              value={c.stage || ''}
+              onChange={e => { e.stopPropagation(); updateStage(e.target.value) }}
+              onClick={e => e.stopPropagation()}
+              disabled={saving}
+              style={{ fontSize: 12, color: '#7B1C1C', fontWeight: 600, background: 'none', border: '1px solid rgba(123,28,28,0.25)', borderRadius: 2, padding: '4px 8px', cursor: 'pointer', fontFamily: 'Inter,system-ui,sans-serif' }}
+            >
+              <option value="">Undiagnosed</option>
+              {STAGES.map(st => <option key={st} value={st}>{st}</option>)}
+            </select>
+          )}
+          {isSubscriber && (
+            <p style={{ fontSize: 12, color: '#C8A96E', fontWeight: 600 }}>Not yet diagnosed</p>
+          )}
         </div>
-        <p style={{ fontSize: 13, color: '#4A3728', marginBottom: 8 }}>{c.email}</p>
-        {!isSubscriber && (
-          <select
-            value={c.stage || ''}
-            onChange={e => updateStage(e.target.value)}
-            disabled={saving}
-            style={{ fontSize: 12, color: '#7B1C1C', fontWeight: 600, background: 'none', border: '1px solid rgba(123,28,28,0.25)', borderRadius: 2, padding: '4px 8px', cursor: 'pointer', fontFamily: 'Inter,system-ui,sans-serif' }}
-          >
-            <option value="">Undiagnosed</option>
-            {STAGES.map(st => <option key={st} value={st}>{st}</option>)}
-          </select>
-        )}
-        {isSubscriber && (
-          <p style={{ fontSize: 12, color: '#C8A96E', fontWeight: 600 }}>Not yet diagnosed</p>
-        )}
+        <div style={{ textAlign: 'right', fontSize: 13, color: '#4A3728' }}>
+          {!isSubscriber && (
+            <p style={{ color: sent > 0 ? '#C8A96E' : undefined, fontWeight: sent > 0 ? 600 : 400 }}>
+              {sent} session{sent !== 1 ? 's' : ''} sent
+            </p>
+          )}
+          {draft > 0 && <p style={{ color: '#7B1C1C', fontWeight: 600 }}>{draft} draft pending</p>}
+          <p style={{ opacity: 0.5, marginTop: 4 }}>{isSubscriber ? 'Subscribed' : 'Added'} {fmt(c.created_at)}</p>
+          {!isSubscriber && sent > 0 && (
+            <p style={{ fontSize: 11, color: '#7B1C1C', marginTop: 6, fontWeight: 600, letterSpacing: '0.04em' }}>
+              {expanded ? '▲ Hide sessions' : '▼ View sessions'}
+            </p>
+          )}
+        </div>
       </div>
-      <div style={{ textAlign: 'right', fontSize: 13, color: '#4A3728' }}>
-        {!isSubscriber && <p>{sent} session{sent !== 1 ? 's' : ''} sent</p>}
-        {draft > 0 && <p style={{ color: '#7B1C1C', fontWeight: 600 }}>{draft} draft pending</p>}
-        <p style={{ opacity: 0.5, marginTop: 4 }}>{isSubscriber ? 'Subscribed' : 'Added'} {fmt(c.created_at)}</p>
-      </div>
+
+      {expanded && !isSubscriber && (
+        <div style={{ background: '#F8F5EE', padding: '0 0 24px' }}>
+          {loadingHistory
+            ? <p style={{ ...s.muted, padding: '20px 0 0' }}>Loading sessions…</p>
+            : history.length === 0
+              ? <p style={{ ...s.muted, padding: '20px 0 0' }}>No sent sessions yet.</p>
+              : history.map(session => (
+                <div key={session.id} style={{ borderTop: '1px solid rgba(26,26,26,0.08)', marginTop: 0 }}>
+                  <div
+                    style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '16px 0', cursor: 'pointer' }}
+                    onClick={() => setExpandedSession(expandedSession === session.id ? null : session.id)}
+                  >
+                    <div>
+                      <p style={{ fontWeight: 700, fontSize: 14, fontFamily: 'Playfair Display,Georgia,serif' }}>
+                        Session {session.session_number}
+                      </p>
+                      <p style={{ fontSize: 12, opacity: 0.45, marginTop: 2 }}>{fmt(session.sent_at || session.created_at)}</p>
+                    </div>
+                    <span style={{ fontSize: 18, color: '#C8A96E', transition: 'transform 0.2s', transform: expandedSession === session.id ? 'rotate(45deg)' : 'none' }}>+</span>
+                  </div>
+                  {expandedSession === session.id && (
+                    <div style={{ paddingBottom: 20 }}>
+                      {session.client_words && (
+                        <div style={{ background: 'rgba(26,26,26,0.04)', padding: '14px 16px', marginBottom: 16, borderLeft: '3px solid rgba(26,26,26,0.15)' }}>
+                          <p style={{ fontSize: 10, fontWeight: 700, letterSpacing: '0.15em', textTransform: 'uppercase', color: '#4A3728', marginBottom: 8, opacity: 0.6 }}>Client wrote</p>
+                          {session.client_words.split('\n').map((l, i) =>
+                            l.trim() ? <p key={i} style={{ ...s.para, fontSize: 14, color: '#4A3728' }}>{l}</p> : <br key={i} />
+                          )}
+                        </div>
+                      )}
+                      <p style={{ fontSize: 10, fontWeight: 700, letterSpacing: '0.15em', textTransform: 'uppercase', color: '#4A3728', marginBottom: 12, opacity: 0.6 }}>Coaching sent</p>
+                      {session.coaching.split('\n').map((l, i) =>
+                        l.trim() ? <p key={i} style={s.para}>{l}</p> : <br key={i} />
+                      )}
+                    </div>
+                  )}
+                </div>
+              ))
+          }
+        </div>
+      )}
     </div>
   )
 }
