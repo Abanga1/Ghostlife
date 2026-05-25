@@ -16,6 +16,7 @@ import ExitIntent from './components/ExitIntent'
 import Footer from './components/Footer'
 import CookieBanner from './components/CookieBanner'
 import ContactPage from './pages/ContactPage'
+import CoachPage from './pages/CoachPage'
 import PrivacyPage from './pages/PrivacyPage'
 import TermsPage from './pages/TermsPage'
 import AffiliatePage from './pages/AffiliatePage'
@@ -86,6 +87,7 @@ export default function App() {
         <Route path="/thank-you" element={<ThankYouPage />} />
         <Route path="/blog" element={<BlogPage />} />
         <Route path="/blog/:slug" element={<ArticlePage />} />
+        <Route path="/coach" element={<CoachPage />} />
       </Routes>
       <CookieBanner />
     </>
