@@ -64,7 +64,7 @@ export default async function handler(req, res) {
       headers: { 'api-key': brevoKey, 'content-type': 'application/json' },
       body: JSON.stringify({
         sender: { name: 'Ghost Life Portal', email: 'isaac@ghostlifesyndrome.com' },
-        to: [{ email: 'isaacabanga0394@gmail.com', name: 'Isaac' }],
+        to: [{ email: 'isaac@ghostlifesyndrome.com', name: 'Isaac' }],
         subject: `New coaching client — ${name || email}`,
         htmlContent: `<div style="font-family:Georgia,serif;max-width:600px;margin:0 auto;padding:40px 24px;color:#141414;line-height:1.8">
           <p style="font-size:11px;letter-spacing:0.2em;text-transform:uppercase;color:#C8A96E;margin-bottom:24px">Ghost Life Coaching</p>
