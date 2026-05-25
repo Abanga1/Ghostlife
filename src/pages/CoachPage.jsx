@@ -236,10 +236,32 @@ function GenerateTab({ pw, clients, onSessionSaved, prefill, onPrefillConsumed }
   )
 }
 
-function ClientRow({ c, isSubscriber }) {
+const STAGES = [
+  'Stage 1 — The Fade',
+  'Stage 2 — The Mask',
+  'Stage 3 — The Shell',
+  'Stage 4 — The Hollow',
+  'Stage 5 — The Return',
+]
+
+function ClientRow({ c, isSubscriber, pw, onStageUpdated }) {
   const sessions = c.coaching_sessions || []
   const sent = sessions.filter(s => s.status === 'sent').length
   const draft = sessions.filter(s => s.status === 'draft').length
+  const [saving, setSaving] = useState(false)
+
+  async function updateStage(stage) {
+    setSaving(true)
+    try {
+      await fetch('/api/clients', {
+        method: 'PATCH',
+        headers: authHeaders(pw),
+        body: JSON.stringify({ id: c.id, stage }),
+      })
+      onStageUpdated(c.id, stage)
+    } finally { setSaving(false) }
+  }
+
   return (
     <div style={s.clientRow}>
       <div style={{ flex: 1 }}>
@@ -247,8 +269,21 @@ function ClientRow({ c, isSubscriber }) {
           <p style={{ fontWeight: 700, fontSize: 16, fontFamily: 'Playfair Display,Georgia,serif' }}>{c.name}</p>
           {isSubscriber && <span style={s.badge}>Potential</span>}
         </div>
-        <p style={{ fontSize: 13, color: '#4A3728', marginBottom: 2 }}>{c.email}</p>
-        <p style={{ fontSize: 12, color: '#C8A96E', fontWeight: 600 }}>{c.stage || (isSubscriber ? 'Not yet diagnosed' : 'Undiagnosed')}</p>
+        <p style={{ fontSize: 13, color: '#4A3728', marginBottom: 8 }}>{c.email}</p>
+        {!isSubscriber && (
+          <select
+            value={c.stage || ''}
+            onChange={e => updateStage(e.target.value)}
+            disabled={saving}
+            style={{ fontSize: 12, color: '#7B1C1C', fontWeight: 600, background: 'none', border: '1px solid rgba(123,28,28,0.25)', borderRadius: 2, padding: '4px 8px', cursor: 'pointer', fontFamily: 'Inter,system-ui,sans-serif' }}
+          >
+            <option value="">Undiagnosed</option>
+            {STAGES.map(st => <option key={st} value={st}>{st}</option>)}
+          </select>
+        )}
+        {isSubscriber && (
+          <p style={{ fontSize: 12, color: '#C8A96E', fontWeight: 600 }}>Not yet diagnosed</p>
+        )}
       </div>
       <div style={{ textAlign: 'right', fontSize: 13, color: '#4A3728' }}>
         {!isSubscriber && <p>{sent} session{sent !== 1 ? 's' : ''} sent</p>}
@@ -260,7 +295,7 @@ function ClientRow({ c, isSubscriber }) {
 }
 
 // ── Clients tab ───────────────────────────────────────────────────────────────
-function ClientsTab({ clients, loading }) {
+function ClientsTab({ clients, loading, pw, onStageUpdated }) {
   if (loading) return <p style={s.muted}>Loading…</p>
   if (!clients.length) return <p style={s.muted}>No clients yet. Generate coaching and save to add one.</p>
 
@@ -273,14 +308,14 @@ function ClientsTab({ clients, loading }) {
         <p style={{ ...s.eyebrow, marginBottom: 16 }}>Coaching Clients — {coaching.length}</p>
         {coaching.length === 0
           ? <p style={s.muted}>No coaching clients yet. They appear here when someone pays via Lemon Squeezy.</p>
-          : coaching.map(c => <ClientRow key={c.id} c={c} isSubscriber={false} />)
+          : coaching.map(c => <ClientRow key={c.id} c={c} isSubscriber={false} pw={pw} onStageUpdated={onStageUpdated} />)
         }
       </div>
       <div>
         <p style={{ ...s.eyebrow, marginBottom: 16 }}>Potential Clients (Subscribers) — {subscribers.length}</p>
         {subscribers.length === 0
           ? <p style={s.muted}>No subscribers logged yet. They appear here when someone submits the email capture form.</p>
-          : subscribers.map(c => <ClientRow key={c.id} c={c} isSubscriber={true} />)
+          : subscribers.map(c => <ClientRow key={c.id} c={c} isSubscriber={true} pw={pw} onStageUpdated={onStageUpdated} />)
         }
       </div>
     </div>
@@ -574,7 +609,12 @@ export default function CoachPage() {
             onMarkReviewed={id => setAssessments(a => a.map(x => x.id === id ? { ...x, status: 'reviewed' } : x))} />
         )}
         {tab === 'clients' && (
-          <ClientsTab clients={clients} loading={loadingClients} />
+          <ClientsTab
+            clients={clients}
+            loading={loadingClients}
+            pw={pw}
+            onStageUpdated={(id, stage) => setClients(cs => cs.map(c => c.id === id ? { ...c, stage } : c))}
+          />
         )}
         {tab === 'approvals' && (
           <ApprovalsTab pw={pw} drafts={drafts}
