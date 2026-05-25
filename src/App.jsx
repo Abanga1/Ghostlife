@@ -24,6 +24,7 @@ import ThankYouPage from './pages/ThankYouPage'
 import BlogPage from './pages/BlogPage'
 import ArticlePage from './pages/ArticlePage'
 import AssessmentPage from './pages/AssessmentPage'
+import AssessmentCTA from './components/AssessmentCTA'
 
 function HomePage() {
   const [showExit, setShowExit] = useState(false)
@@ -71,6 +72,7 @@ function HomePage() {
       <div id="pricing"><OfferSection /></div>
       <div className="divider">◆ ◆ ◆</div>
       <div id="faq"><FaqSection /></div>
+      <AssessmentCTA />
       <Footer />
     </>
   )

@@ -2,14 +2,14 @@ import React, { useEffect, useRef } from 'react'
 
 const URLS = {
   book:       'https://ghostlifesyndrome.lemonsqueezy.com/checkout/buy/61f7d117-9bee-48b0-ab43-c667f95f4ebc',
-  assessment: 'https://ghostlifesyndrome.lemonsqueezy.com/checkout/buy/61f7d117-9bee-48b0-ab43-c667f95f4ebc', // TODO: replace with assessment product URL
+  assessment: 'https://ghostlifesyndrome.lemonsqueezy.com/checkout/buy/34856ebd-5d34-4e1b-9973-212f8ae74c4e',
   programme:  'https://ghostlifesyndrome.lemonsqueezy.com/checkout/buy/61f7d117-9bee-48b0-ab43-c667f95f4ebc', // TODO: replace with programme product URL
 }
 
 const TIERS = [
   {
     tier: 'The Book',
-    price: '$17',
+    price: '$16.99',
     priceNote: 'one-time',
     name: 'The Ghost Life Syndrome',
     featured: false,
@@ -27,7 +27,7 @@ const TIERS = [
   },
   {
     tier: 'Assessment',
-    price: '$57',
+    price: '$56.99',
     priceNote: 'one-time',
     name: 'Written Assessment',
     featured: true,

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 
 const BOOK_URL = 'https://ghostlifesyndrome.lemonsqueezy.com/checkout/buy/61f7d117-9bee-48b0-ab43-c667f95f4ebc'
+const ASSESSMENT_URL = 'https://ghostlifesyndrome.lemonsqueezy.com/checkout/buy/34856ebd-5d34-4e1b-9973-212f8ae74c4e'
 
 const LINKS = [
   { label: 'The Signs', id: 'signs' },
@@ -44,8 +45,8 @@ export default function Nav() {
               </button>
             ))}
           </nav>
-          <a href={BOOK_URL} className="btn btn--primary nav__cta" target="_blank" rel="noreferrer">
-            Get the Book
+          <a href={ASSESSMENT_URL} className="btn btn--primary nav__cta" target="_blank" rel="noreferrer">
+            Get Assessed
           </a>
           <button
             className={`nav__hamburger${open ? ' nav__hamburger--open' : ''}`}
@@ -65,8 +66,8 @@ export default function Nav() {
               {l.label}
             </button>
           ))}
-          <a href={BOOK_URL} className="btn btn--primary" target="_blank" rel="noreferrer" onClick={() => setOpen(false)}>
-            Get the Book — $17
+          <a href={ASSESSMENT_URL} className="btn btn--primary" target="_blank" rel="noreferrer" onClick={() => setOpen(false)}>
+            Get Assessed — $56.99
           </a>
         </div>
       )}

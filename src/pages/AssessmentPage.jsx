@@ -4,6 +4,8 @@ import SEO from '../components/SEO'
 import Nav from '../components/Nav'
 import Footer from '../components/Footer'
 
+const ASSESSMENT_URL = 'https://ghostlifesyndrome.lemonsqueezy.com/checkout/buy/34856ebd-5d34-4e1b-9973-212f8ae74c4e'
+
 const STEPS = [
   {
     id: 'situation',
@@ -36,6 +38,38 @@ const STEPS = [
 ]
 
 export default function AssessmentPage() {
+  const params = new URLSearchParams(window.location.search)
+  const isPaid = params.get('ref') === 'ls'
+
+  if (!isPaid) {
+    return (
+      <>
+        <SEO title="Written Assessment — Ghost Life Syndrome" path="/assessment" />
+        <Nav />
+        <main className="assess-page">
+          <div className="container assess-page__inner" style={{ paddingTop: 40 }}>
+            <p className="assess-page__eyebrow">Written Assessment</p>
+            <h1 className="serif assess-page__title">This form is for paid customers.</h1>
+            <p className="assess-page__subtitle">
+              Purchase the assessment to access the intake form.
+              After checkout you'll be redirected here automatically.
+            </p>
+            <a
+              href={ASSESSMENT_URL}
+              className="btn btn--primary"
+              target="_blank"
+              rel="noreferrer"
+              style={{ marginTop: 32, display: 'inline-block' }}
+            >
+              Get the Assessment — $56.99
+            </a>
+          </div>
+        </main>
+        <Footer />
+      </>
+    )
+  }
+
   const [step, setStep] = useState(0) // 0..STEPS.length-1 = questions, STEPS.length = contact, STEPS.length+1 = done
   const [answers, setAnswers] = useState({ situation: '', not_working: '', tried: '', wants: '' })
   const [name, setName] = useState('')
