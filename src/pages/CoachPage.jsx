@@ -1,22 +1,14 @@
 import React, { useState } from 'react'
 
-const STAGES = [
-  { value: 'Stage 1 — The Fade', label: 'Stage 1 — The Fade' },
-  { value: 'Stage 2 — The Mask', label: 'Stage 2 — The Mask' },
-  { value: 'Stage 3 — The Shell', label: 'Stage 3 — The Shell' },
-  { value: 'Stage 4 — The Hollow', label: 'Stage 4 — The Hollow' },
-  { value: 'Stage 5 — The Return', label: 'Stage 5 — The Return' },
-]
-
 export default function CoachPage() {
   const [password, setPassword] = useState('')
   const [authed, setAuthed] = useState(false)
   const [authError, setAuthError] = useState('')
 
   const [clientName, setClientName] = useState('')
-  const [stage, setStage] = useState('')
-  const [situation, setSituation] = useState('')
+  const [clientWords, setClientWords] = useState('')
   const [notes, setNotes] = useState('')
+  const [diagnosis, setDiagnosis] = useState('')
 
   const [loading, setLoading] = useState(false)
   const [result, setResult] = useState('')
@@ -36,9 +28,10 @@ export default function CoachPage() {
 
   async function handleGenerate(e) {
     e.preventDefault()
-    if (!stage || !situation.trim()) return
+    if (!clientWords.trim()) return
     setLoading(true)
     setResult('')
+    setDiagnosis('')
     setError('')
     setCopied(false)
 
@@ -51,11 +44,16 @@ export default function CoachPage() {
           'content-type': 'application/json',
           'x-coach-password': storedPw,
         },
-        body: JSON.stringify({ clientName, stage, situation, notes }),
+        body: JSON.stringify({ clientName, clientWords, notes }),
       })
       const data = await res.json()
       if (!res.ok) throw new Error(data.error || 'Something went wrong')
-      setResult(data.coaching)
+
+      const full = data.coaching || ''
+      const diagMatch = full.match(/---DIAGNOSIS---([\s\S]*?)---COACHING---/)
+      const coachMatch = full.match(/---COACHING---([\s\S]*)$/)
+      setDiagnosis(diagMatch ? diagMatch[1].trim() : '')
+      setResult(coachMatch ? coachMatch[1].trim() : full)
     } catch (err) {
       setError(err.message)
     } finally {
@@ -71,10 +69,10 @@ export default function CoachPage() {
 
   function handleReset() {
     setClientName('')
-    setStage('')
-    setSituation('')
+    setClientWords('')
     setNotes('')
     setResult('')
+    setDiagnosis('')
     setError('')
   }
 
@@ -123,27 +121,12 @@ export default function CoachPage() {
             </div>
 
             <div style={styles.field}>
-              <label style={styles.fieldLabel}>Stage *</label>
-              <select
-                value={stage}
-                onChange={e => setStage(e.target.value)}
-                style={styles.input}
-                required
-              >
-                <option value="">Select a stage…</option>
-                {STAGES.map(s => (
-                  <option key={s.value} value={s.value}>{s.label}</option>
-                ))}
-              </select>
-            </div>
-
-            <div style={styles.field}>
-              <label style={styles.fieldLabel}>What they are experiencing *</label>
+              <label style={styles.fieldLabel}>Client's exact words *</label>
               <textarea
-                placeholder="Describe what the client is going through — their words, their situation, the patterns you've noticed…"
-                value={situation}
-                onChange={e => setSituation(e.target.value)}
-                style={{ ...styles.input, ...styles.textarea }}
+                placeholder="Paste exactly what the client wrote or said — their own words, unedited. The system will diagnose their stage from this."
+                value={clientWords}
+                onChange={e => setClientWords(e.target.value)}
+                style={{ ...styles.input, ...styles.textarea, minHeight: 200 }}
                 required
               />
             </div>
@@ -183,21 +166,33 @@ export default function CoachPage() {
                 <p style={styles.outputMuted}>The coaching will appear here.</p>
               </div>
             )}
-            {result && (
-              <div style={styles.resultBox}>
-                <div style={styles.resultHeader}>
-                  <span style={styles.resultLabel}>
-                    {clientName ? `Coaching for ${clientName}` : 'Generated Coaching'}
-                  </span>
-                  <button onClick={handleCopy} style={styles.copyBtn}>
-                    {copied ? 'Copied!' : 'Copy'}
-                  </button>
-                </div>
-                <div style={styles.resultBody}>
-                  {result.split('\n').map((line, i) =>
-                    line.trim() ? <p key={i} style={styles.resultPara}>{line}</p> : <br key={i} />
-                  )}
-                </div>
+            {(diagnosis || result) && (
+              <div>
+                {diagnosis && (
+                  <div style={styles.diagnosisBox}>
+                    <p style={styles.diagnosisLabel}>Stage Diagnosis</p>
+                    {diagnosis.split('\n').map((line, i) =>
+                      line.trim() ? <p key={i} style={styles.diagnosisPara}>{line}</p> : <br key={i} />
+                    )}
+                  </div>
+                )}
+                {result && (
+                  <div style={styles.resultBox}>
+                    <div style={styles.resultHeader}>
+                      <span style={styles.resultLabel}>
+                        {clientName ? `Coaching for ${clientName}` : 'Generated Coaching'}
+                      </span>
+                      <button onClick={handleCopy} style={styles.copyBtn}>
+                        {copied ? 'Copied!' : 'Copy'}
+                      </button>
+                    </div>
+                    <div style={styles.resultBody}>
+                      {result.split('\n').map((line, i) =>
+                        line.trim() ? <p key={i} style={styles.resultPara}>{line}</p> : <br key={i} />
+                      )}
+                    </div>
+                  </div>
+                )}
               </div>
             )}
           </div>
@@ -363,6 +358,27 @@ const styles = {
     fontSize: 14,
     color: '#4A3728',
     opacity: 0.5,
+    fontFamily: 'Inter, system-ui, sans-serif',
+  },
+  diagnosisBox: {
+    background: '#141414',
+    padding: '24px',
+    marginBottom: 2,
+  },
+  diagnosisLabel: {
+    fontSize: 10,
+    fontWeight: 700,
+    letterSpacing: '0.25em',
+    textTransform: 'uppercase',
+    color: '#C8A96E',
+    marginBottom: 12,
+    fontFamily: 'Inter, system-ui, sans-serif',
+  },
+  diagnosisPara: {
+    fontSize: 14,
+    lineHeight: 1.7,
+    color: '#F5EFE0',
+    marginBottom: 8,
     fontFamily: 'Inter, system-ui, sans-serif',
   },
   resultBox: {

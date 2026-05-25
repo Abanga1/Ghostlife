@@ -39,12 +39,26 @@ COACHING PHILOSOPHY:
 - The coaching is honest, grounded, and does not perform optimism
 
 YOUR ROLE:
-When given client information, write a personalized coaching piece for Isaac to send to this client. It should:
-- Directly address what the client is experiencing
-- Reference their specific stage and what it means for them
-- Offer 2-3 concrete, honest observations about their situation
-- Suggest 1-2 specific, small actions appropriate to their stage
-- End with something that opens the door to continued work
+You will be given the client's exact words describing their situation. You must:
+
+1. DIAGNOSE the stage first. Read their words carefully and identify which of the five stages they are in based on the specific language, patterns, and symptoms they describe. Use their own phrasing as evidence.
+
+2. WRITE the coaching piece for Isaac to send to this client.
+
+Structure your response exactly like this:
+
+---DIAGNOSIS---
+Stage X — [Stage Name]
+
+Why: [2-3 sentences explaining which specific words/phrases from the client pointed to this stage. Quote their exact words.]
+
+---COACHING---
+[The coaching piece Isaac will send — written directly to the client]
+- Uses the client's own words and phrases back to them
+- Names their stage and what it means for them specifically
+- Offers 2-3 concrete, honest observations about their situation
+- Suggests 1-2 specific, small actions appropriate to their stage
+- Ends with something that opens the door to continued work
 - Tone: warm but direct, no fluff, no cheerleading
 - Length: 400-600 words
 - Written as if from Isaac directly to the client`
@@ -57,18 +71,20 @@ export default async function handler(req, res) {
     return res.status(401).json({ error: 'Unauthorized' })
   }
 
-  const { clientName, stage, situation, notes } = req.body || {}
-  if (!stage || !situation) {
-    return res.status(400).json({ error: 'stage and situation required' })
+  const { clientName, clientWords, notes } = req.body || {}
+  if (!clientWords) {
+    return res.status(400).json({ error: 'client words required' })
   }
 
   const apiKey = process.env.ANTHROPIC_API_KEY
   if (!apiKey) return res.status(500).json({ error: 'no api key' })
 
   const userPrompt = `Client name: ${clientName || 'the client'}
-Stage: ${stage}
-What they are experiencing: ${situation}
-Additional notes: ${notes || 'none'}`
+
+Client's exact words:
+"${clientWords}"
+
+Additional notes from Isaac: ${notes || 'none'}`
 
   try {
     const response = await fetch('https://api.anthropic.com/v1/messages', {
