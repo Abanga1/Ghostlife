@@ -1,4 +1,7 @@
 {
   "rewrites": [{ "source": "/(.*)", "destination": "/index.html" }],
-  "crons": [{ "path": "/api/drip-cron", "schedule": "0 8 * * *" }]
+  "crons": [
+    { "path": "/api/drip-cron", "schedule": "0 8 * * *" },
+    { "path": "/api/coaching-weekly", "schedule": "0 9 * * 1" }
+  ]
 }

@@ -1,0 +1,23 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npm run *)",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\" http://localhost:5173)",
+      "Bash(npx playwright *)",
+      "Bash(git commit -m ' *)",
+      "Bash(git push *)",
+      "Bash(npx vercel *)",
+      "Read(//c/Users/isaac/Downloads/**)",
+      "Bash(cp \"C:/Users/isaac/Downloads/og-image.png\" \"C:/Users/isaac/ghostlife/public/og-image.png\")",
+      "Read(//c/Users/isaac/code/tradesos/**)",
+      "Bash(cat \"C:/Users/isaac/AppData/Roaming/com.vercel.cli/auth.json\" 2>&1 | head -5)",
+      "Read(//c/Users/isaac/AppData/Roaming/com.vercel.cli/**)",
+      "Read(//c/Users/isaac/AppData/Local/**)",
+      "Bash(npx vercel@latest stores create kv ghostlife-coaching)",
+      "Bash(curl -s -X POST \"https://zzwskngsemccyxqztcxm.supabase.co/rest/v1/rpc/query\" -H \"apikey: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inp6d3NrbmdzZW1jY3l4cXp0Y3htIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc3OTY3MzU4MSwiZXhwIjoyMDk1MjQ5NTgxfQ.Tzi8WB_KH4nCrtqljoJ8hW7ktuKqrLog1PoUEGNFWz0\" -H \"Content-Type: application/json\" -d '{\"query\":\"SELECT 1\"}')"
+    ],
+    "additionalDirectories": [
+      "C:\\Users\\isaac\\Downloads"
+    ]
+  }
+}
