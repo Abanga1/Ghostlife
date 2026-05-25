@@ -12,12 +12,6 @@ export default function CoachPage() {
   const [password, setPassword] = useState('')
   const [authed, setAuthed] = useState(false)
   const [authError, setAuthError] = useState('')
-  const [showChangePw, setShowChangePw] = useState(false)
-  const [newPw, setNewPw] = useState('')
-  const [confirmPw, setConfirmPw] = useState('')
-  const [changePwLoading, setChangePwLoading] = useState(false)
-  const [changePwError, setChangePwError] = useState('')
-  const [changePwDone, setChangePwDone] = useState(false)
 
   const [clientName, setClientName] = useState('')
   const [stage, setStage] = useState('')
@@ -35,33 +29,8 @@ export default function CoachPage() {
       setAuthed(true)
       setAuthError('')
       sessionStorage.setItem('coach_pw', password.trim())
-      if (password.trim() === 'admin') setShowChangePw(true)
     } else {
       setAuthError('Enter the password.')
-    }
-  }
-
-  async function handleChangePw(e) {
-    e.preventDefault()
-    if (newPw !== confirmPw) return setChangePwError('Passwords do not match.')
-    if (newPw.length < 6) return setChangePwError('Password must be at least 6 characters.')
-    setChangePwLoading(true)
-    setChangePwError('')
-    const storedPw = sessionStorage.getItem('coach_pw') || password
-    try {
-      const res = await fetch('/api/change-password', {
-        method: 'POST',
-        headers: { 'content-type': 'application/json', 'x-coach-password': storedPw },
-        body: JSON.stringify({ newPassword: newPw }),
-      })
-      const data = await res.json()
-      if (!res.ok) throw new Error(data.error || 'Failed')
-      sessionStorage.setItem('coach_pw', newPw)
-      setChangePwDone(true)
-    } catch (err) {
-      setChangePwError(err.message)
-    } finally {
-      setChangePwLoading(false)
     }
   }
 
@@ -127,59 +96,6 @@ export default function CoachPage() {
             {authError && <p style={styles.errorText}>{authError}</p>}
             <button type="submit" style={styles.btnPrimary}>Enter</button>
           </form>
-        </div>
-      </div>
-    )
-  }
-
-  if (showChangePw) {
-    return (
-      <div style={styles.gate}>
-        <div style={styles.gateBox}>
-          <p style={styles.gateLabel}>FIRST LOGIN</p>
-          <h1 style={styles.gateTitle}>Set Your Password</h1>
-          <p style={{ ...styles.outputMuted, marginBottom: 24, fontSize: 13 }}>
-            You logged in with the default password. Set a new one now.
-          </p>
-          {changePwDone ? (
-            <>
-              <p style={{ color: '#C8A96E', fontSize: 14, marginBottom: 24 }}>
-                Password updated. Redeploying — ready in ~30 seconds.
-              </p>
-              <button style={styles.btnPrimary} onClick={() => setShowChangePw(false)}>
-                Continue to Dashboard
-              </button>
-            </>
-          ) : (
-            <form onSubmit={handleChangePw} style={styles.gateForm}>
-              <input
-                type="password"
-                placeholder="New password"
-                value={newPw}
-                onChange={e => setNewPw(e.target.value)}
-                style={styles.input}
-                autoFocus
-              />
-              <input
-                type="password"
-                placeholder="Confirm new password"
-                value={confirmPw}
-                onChange={e => setConfirmPw(e.target.value)}
-                style={styles.input}
-              />
-              {changePwError && <p style={styles.errorText}>{changePwError}</p>}
-              <button type="submit" style={styles.btnPrimary} disabled={changePwLoading}>
-                {changePwLoading ? 'Saving…' : 'Set Password'}
-              </button>
-              <button
-                type="button"
-                style={{ ...styles.btnOutline, marginTop: 4 }}
-                onClick={() => setShowChangePw(false)}
-              >
-                Skip for now
-              </button>
-            </form>
-          )}
         </div>
       </div>
     )
