@@ -62,6 +62,22 @@ function GenerateTab({ pw, clients, onSessionSaved, prefill, onPrefillConsumed }
   const [saving, setSaving] = useState(false)
   const [saved, setSaved] = useState(false)
   const [isNew, setIsNew] = useState(true)
+  const [previousSessions, setPreviousSessions] = useState([])
+  const [loadingHistory, setLoadingHistory] = useState(false)
+
+  React.useEffect(() => {
+    if (!isNew && clientId) {
+      setLoadingHistory(true)
+      setPreviousSessions([])
+      fetch(`/api/sessions?client_id=${clientId}`, { headers: authHeaders(pw) })
+        .then(r => r.json())
+        .then(data => setPreviousSessions(Array.isArray(data) ? data : []))
+        .catch(() => {})
+        .finally(() => setLoadingHistory(false))
+    } else {
+      setPreviousSessions([])
+    }
+  }, [clientId, isNew])
 
   async function generate(e) {
     e.preventDefault()
@@ -71,7 +87,13 @@ function GenerateTab({ pw, clients, onSessionSaved, prefill, onPrefillConsumed }
       const res = await fetch('/api/coaching', {
         method: 'POST',
         headers: authHeaders(pw),
-        body: JSON.stringify({ clientName: isNew ? newName : clients.find(c => c.id === clientId)?.name, clientWords, notes }),
+        body: JSON.stringify({
+          clientName: isNew ? newName : clients.find(c => c.id === clientId)?.name,
+          clientStage: isNew ? '' : clients.find(c => c.id === clientId)?.stage,
+          clientWords,
+          notes,
+          previousSessions: isNew ? [] : previousSessions,
+        }),
       })
       const data = await res.json()
       if (!res.ok) throw new Error(data.error)
@@ -129,10 +151,24 @@ function GenerateTab({ pw, clients, onSessionSaved, prefill, onPrefillConsumed }
               <input placeholder="Email" value={newEmail} onChange={e => setNewEmail(e.target.value)} style={s.input} />
             </div>
           ) : (
-            <select value={clientId} onChange={e => setClientId(e.target.value)} style={s.input}>
-              <option value="">Select client…</option>
-              {clients.map(c => <option key={c.id} value={c.id}>{c.name} — {c.stage || 'undiagnosed'}</option>)}
-            </select>
+            <>
+              <select value={clientId} onChange={e => setClientId(e.target.value)} style={s.input}>
+                <option value="">Select client…</option>
+                {clients.map(c => <option key={c.id} value={c.id}>{c.name} — {c.stage || 'undiagnosed'}</option>)}
+              </select>
+              {clientId && (
+                <div style={{ marginTop: 8, padding: '10px 14px', background: loadingHistory ? '#EDE8DA' : previousSessions.length > 0 ? '#141414' : '#EDE8DA', borderRadius: 2 }}>
+                  {loadingHistory
+                    ? <p style={{ fontSize: 12, color: '#4A3728', opacity: 0.6 }}>Loading session history…</p>
+                    : previousSessions.length === 0
+                      ? <p style={{ fontSize: 12, color: '#4A3728', opacity: 0.6 }}>No previous sessions — this will be session 1.</p>
+                      : <p style={{ fontSize: 12, color: '#C8A96E', fontWeight: 700, letterSpacing: '0.08em' }}>
+                          {previousSessions.length} previous session{previousSessions.length !== 1 ? 's' : ''} loaded — AI has full context.
+                        </p>
+                  }
+                </div>
+              )}
+            </>
           )}
         </div>
 

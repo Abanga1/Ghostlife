@@ -11,8 +11,22 @@ export default async function handler(req, res) {
 
   const db = supabase()
 
-  // List all draft sessions (approval queue)
   if (req.method === 'GET') {
+    const { client_id } = req.query
+
+    // Client history — all sent sessions for a specific client
+    if (client_id) {
+      const { data, error } = await db
+        .from('coaching_sessions')
+        .select('*')
+        .eq('client_id', client_id)
+        .eq('status', 'sent')
+        .order('session_number', { ascending: true })
+      if (error) return res.status(500).json({ error: error.message })
+      return res.status(200).json(data)
+    }
+
+    // Default: draft sessions for approval queue
     const { data, error } = await db
       .from('coaching_sessions')
       .select(`*, clients(name, email, stage)`)
