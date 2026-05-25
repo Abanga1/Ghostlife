@@ -22,7 +22,7 @@ function EmailEntry({ onFound }) {
     try {
       const res = await fetch(`/api/client-portal?email=${encodeURIComponent(email.trim())}`)
       if (res.status === 404) {
-        setError('No coaching account found for this email. Make sure you're using the email you purchased with.')
+        setError('No coaching account found for this email. Make sure you are using the email you purchased with.')
         return
       }
       if (!res.ok) throw new Error('Something went wrong.')
