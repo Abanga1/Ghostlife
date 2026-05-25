@@ -44,9 +44,9 @@ export default async function handler(req, res) {
 
   if (error) return res.status(500).json({ error: error.message })
 
-  // Also add to Brevo coaching list (list 4 — create this in Brevo)
   const brevoKey = process.env.BREVO_API_KEY
   if (brevoKey) {
+    // Add to Brevo coaching list
     await fetch('https://api.brevo.com/v3/contacts', {
       method: 'POST',
       headers: { 'api-key': brevoKey, 'content-type': 'application/json', accept: 'application/json' },
@@ -55,6 +55,38 @@ export default async function handler(req, res) {
         attributes: { FIRSTNAME: name.split(' ')[0] || '', TYPE: 'coaching' },
         listIds: [4],
         updateEnabled: true,
+      }),
+    }).catch(() => {})
+
+    // Notify Isaac immediately
+    await fetch('https://api.brevo.com/v3/smtp/email', {
+      method: 'POST',
+      headers: { 'api-key': brevoKey, 'content-type': 'application/json' },
+      body: JSON.stringify({
+        sender: { name: 'Ghost Life Portal', email: 'isaac@ghostlifesyndrome.com' },
+        to: [{ email: 'isaacabanga0394@gmail.com', name: 'Isaac' }],
+        subject: `New coaching client — ${name || email}`,
+        htmlContent: `<div style="font-family:Georgia,serif;max-width:600px;margin:0 auto;padding:40px 24px;color:#141414;line-height:1.8">
+          <p style="font-size:11px;letter-spacing:0.2em;text-transform:uppercase;color:#C8A96E;margin-bottom:24px">Ghost Life Coaching</p>
+          <h2 style="font-size:26px;font-weight:700;margin-bottom:8px">New client just purchased.</h2>
+          <p style="font-size:13px;color:#888;margin-bottom:32px">${productName || 'Coaching'}</p>
+          <table style="width:100%;border-collapse:collapse;margin-bottom:32px">
+            <tr style="border-bottom:1px solid #eee">
+              <td style="padding:12px 0;font-size:13px;color:#888;width:120px">Name</td>
+              <td style="padding:12px 0;font-size:15px;font-weight:600">${name || '—'}</td>
+            </tr>
+            <tr style="border-bottom:1px solid #eee">
+              <td style="padding:12px 0;font-size:13px;color:#888">Email</td>
+              <td style="padding:12px 0;font-size:15px">${email}</td>
+            </tr>
+            <tr>
+              <td style="padding:12px 0;font-size:13px;color:#888">Product</td>
+              <td style="padding:12px 0;font-size:15px">${productName || '—'}</td>
+            </tr>
+          </table>
+          <p style="font-size:14px;color:#555;margin-bottom:32px">Their 7-day trial has started. Reach out within 24 hours to make the first impression count.</p>
+          <a href="https://ghostlifesyndrome.com/coach" style="display:inline-block;padding:14px 32px;background:#7B1C1C;color:#F5EFE0;text-decoration:none;font-family:Inter,system-ui,sans-serif;font-size:13px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase">Open Dashboard →</a>
+        </div>`,
       }),
     }).catch(() => {})
   }
