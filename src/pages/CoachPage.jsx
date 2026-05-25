@@ -439,6 +439,47 @@ function AssessmentsTab({ pw, assessments, loading, onGenerate, onMarkReviewed }
   )
 }
 
+// ── Check-ins tab ─────────────────────────────────────────────────────────────
+function CheckinsTab({ checkins, onGenerate }) {
+  if (!checkins.length) return (
+    <p style={s.muted}>No client check-ins yet. When a coaching client writes through their portal, it appears here.</p>
+  )
+
+  return (
+    <div>
+      <p style={{ ...s.muted, marginBottom: 24 }}>Client check-ins waiting for a response. Click Generate to open in the Generate tab pre-filled.</p>
+      {checkins.map(c => (
+        <div key={c.id} style={s.draftRow}>
+          <div style={s.draftHeader}>
+            <div>
+              <p style={{ fontWeight: 700, fontSize: 15, fontFamily: 'Playfair Display,Georgia,serif' }}>
+                {c.clients?.name} — Session {c.session_number}
+              </p>
+              <p style={{ fontSize: 12, color: '#C8A96E', fontWeight: 600, marginTop: 2 }}>{c.clients?.stage || 'Undiagnosed'}</p>
+              <p style={{ fontSize: 12, opacity: 0.45, marginTop: 2 }}>Submitted {fmt(c.created_at)}</p>
+            </div>
+            <button
+              onClick={() => onGenerate({
+                name: c.clients?.name,
+                email: c.clients?.email,
+                words: c.client_words,
+              })}
+              style={s.btnPrimary}
+            >
+              Generate Response
+            </button>
+          </div>
+          <div style={s.draftBody}>
+            {c.client_words.split('\n').map((l, i) =>
+              l.trim() ? <p key={i} style={s.para}>{l}</p> : <br key={i} />
+            )}
+          </div>
+        </div>
+      ))}
+    </div>
+  )
+}
+
 // ── Main ──────────────────────────────────────────────────────────────────────
 export default function CoachPage() {
   const [pw, setPw] = useState(() => sessionStorage.getItem('coach_pw') || '')
@@ -446,6 +487,7 @@ export default function CoachPage() {
   const [tab, setTab] = useState('generate')
   const [clients, setClients] = useState([])
   const [drafts, setDrafts] = useState([])
+  const [checkins, setCheckins] = useState([])
   const [assessments, setAssessments] = useState([])
   const [loadingClients, setLoadingClients] = useState(false)
   const [loadingAssessments, setLoadingAssessments] = useState(false)
@@ -454,12 +496,14 @@ export default function CoachPage() {
   const loadClients = useCallback(async (password) => {
     setLoadingClients(true)
     try {
-      const [cRes, dRes] = await Promise.all([
+      const [cRes, dRes, ciRes] = await Promise.all([
         fetch('/api/clients', { headers: authHeaders(password) }),
         fetch('/api/sessions', { headers: authHeaders(password) }),
+        fetch('/api/sessions?status=client_submitted', { headers: authHeaders(password) }),
       ])
       if (cRes.ok) setClients(await cRes.json())
       if (dRes.ok) setDrafts(await dRes.json())
+      if (ciRes.ok) setCheckins(await ciRes.json())
     } finally { setLoadingClients(false) }
   }, [])
 
@@ -492,6 +536,7 @@ export default function CoachPage() {
 
   const pendingCount = drafts.length
   const newAssessments = assessments.filter(a => a.status === 'new').length
+  const checkinCount = checkins.length
 
   return (
     <div style={s.page}>
@@ -504,6 +549,7 @@ export default function CoachPage() {
         <div style={s.tabs}>
           {[
             { key: 'generate', label: 'Generate' },
+            { key: 'checkins', label: `Check-ins${checkinCount ? ` · ${checkinCount}` : ''}`, alert: checkinCount > 0 },
             { key: 'assessments', label: `Assessments${newAssessments ? ` · ${newAssessments}` : ''}`, alert: newAssessments > 0 },
             { key: 'clients', label: `Clients (${clients.length})` },
             { key: 'approvals', label: `Approvals${pendingCount ? ` · ${pendingCount}` : ''}`, alert: pendingCount > 0 },
@@ -518,6 +564,9 @@ export default function CoachPage() {
         {tab === 'generate' && (
           <GenerateTab pw={pw} clients={clients} onSessionSaved={() => loadClients(pw)}
             prefill={generatePrefill} onPrefillConsumed={() => setGeneratePrefill(null)} />
+        )}
+        {tab === 'checkins' && (
+          <CheckinsTab checkins={checkins} onGenerate={prefill => { handleGenerateFromAssessment(prefill); setCheckins(ci => ci.filter(c => c.client_words !== prefill.words)) }} />
         )}
         {tab === 'assessments' && (
           <AssessmentsTab pw={pw} assessments={assessments} loading={loadingAssessments}

@@ -26,6 +26,17 @@ export default async function handler(req, res) {
       return res.status(200).json(data)
     }
 
+    // client_submitted check-ins
+    if (req.query.status === 'client_submitted') {
+      const { data, error } = await db
+        .from('coaching_sessions')
+        .select(`*, clients(name, email, stage)`)
+        .eq('status', 'client_submitted')
+        .order('created_at', { ascending: true })
+      if (error) return res.status(500).json({ error: error.message })
+      return res.status(200).json(data)
+    }
+
     // Default: draft sessions for approval queue
     const { data, error } = await db
       .from('coaching_sessions')

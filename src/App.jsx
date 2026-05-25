@@ -24,6 +24,7 @@ import ThankYouPage from './pages/ThankYouPage'
 import BlogPage from './pages/BlogPage'
 import ArticlePage from './pages/ArticlePage'
 import AssessmentPage from './pages/AssessmentPage'
+import ClientPortal from './pages/ClientPortal'
 import AssessmentCTA from './components/AssessmentCTA'
 
 function HomePage() {
@@ -92,6 +93,7 @@ export default function App() {
         <Route path="/blog/:slug" element={<ArticlePage />} />
         <Route path="/coach" element={<CoachPage />} />
         <Route path="/assessment" element={<AssessmentPage />} />
+        <Route path="/portal" element={<ClientPortal />} />
       </Routes>
       <CookieBanner />
     </>
