@@ -58,6 +58,38 @@ export default async function handler(req, res) {
       }),
     }).catch(() => {})
 
+    // Onboarding email to the client
+    const firstName = name.split(' ')[0] || ''
+    await fetch('https://api.brevo.com/v3/smtp/email', {
+      method: 'POST',
+      headers: { 'api-key': brevoKey, 'content-type': 'application/json' },
+      body: JSON.stringify({
+        sender: { name: 'Isaac', email: 'isaac@ghostlifesyndrome.com' },
+        to: [{ email, name: name || '' }],
+        subject: `You're in.`,
+        htmlContent: `<div style="font-family:Georgia,serif;max-width:560px;margin:0 auto;padding:40px 24px;color:#141414;line-height:1.85">
+          <p style="font-size:11px;letter-spacing:0.2em;text-transform:uppercase;color:#C8A96E;margin-bottom:32px">Ghost Life Syndrome</p>
+          <h1 style="font-family:Georgia,serif;font-size:30px;font-weight:700;line-height:1.2;margin-bottom:24px">Your coaching has started${firstName ? ', ' + firstName : ''}.</h1>
+          <p style="font-size:16px;line-height:1.85;margin-bottom:16px">
+            I have your details. Here is exactly what happens next.
+          </p>
+          <p style="font-size:16px;line-height:1.85;margin-bottom:16px">
+            You have a private portal where your coaching happens. Go there now, enter your email address, and write to me — what is going on for you right now, in your own words, without filtering it.
+          </p>
+          <p style="font-size:16px;line-height:1.85;margin-bottom:32px">
+            I will read everything you write. Within 48 hours you will receive a detailed written response — what I am seeing, what the pattern is, and what moves next. No calls. No video. Entirely in writing, at your pace.
+          </p>
+          <a href="https://ghostlifesyndrome.com/portal" style="display:inline-block;padding:16px 40px;background:#7B1C1C;color:#F5EFE0;text-decoration:none;font-family:Inter,system-ui,sans-serif;font-size:13px;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;margin-bottom:32px">Go to your portal →</a>
+          <p style="font-size:14px;line-height:1.75;color:#555;margin-bottom:12px">
+            Your portal is private. Only you and I can see what is written there. If you have any questions before your first response arrives, reply to this email.
+          </p>
+          <p style="font-size:14px;color:#888;margin-top:40px;padding-top:24px;border-top:1px solid #eee">
+            Ghost Life Syndrome &nbsp;·&nbsp; <a href="https://ghostlifesyndrome.com" style="color:#888">ghostlifesyndrome.com</a>
+          </p>
+        </div>`,
+      }),
+    }).catch(() => {})
+
     // Notify Isaac immediately
     await fetch('https://api.brevo.com/v3/smtp/email', {
       method: 'POST',
