@@ -189,31 +189,53 @@ function GenerateTab({ pw, clients, onSessionSaved }) {
   )
 }
 
+function ClientRow({ c, isSubscriber }) {
+  const sessions = c.coaching_sessions || []
+  const sent = sessions.filter(s => s.status === 'sent').length
+  const draft = sessions.filter(s => s.status === 'draft').length
+  return (
+    <div style={s.clientRow}>
+      <div style={{ flex: 1 }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 4 }}>
+          <p style={{ fontWeight: 700, fontSize: 16, fontFamily: 'Playfair Display,Georgia,serif' }}>{c.name}</p>
+          {isSubscriber && <span style={s.badge}>Potential</span>}
+        </div>
+        <p style={{ fontSize: 13, color: '#4A3728', marginBottom: 2 }}>{c.email}</p>
+        <p style={{ fontSize: 12, color: '#C8A96E', fontWeight: 600 }}>{c.stage || (isSubscriber ? 'Not yet diagnosed' : 'Undiagnosed')}</p>
+      </div>
+      <div style={{ textAlign: 'right', fontSize: 13, color: '#4A3728' }}>
+        {!isSubscriber && <p>{sent} session{sent !== 1 ? 's' : ''} sent</p>}
+        {draft > 0 && <p style={{ color: '#7B1C1C', fontWeight: 600 }}>{draft} draft pending</p>}
+        <p style={{ opacity: 0.5, marginTop: 4 }}>{isSubscriber ? 'Subscribed' : 'Added'} {fmt(c.created_at)}</p>
+      </div>
+    </div>
+  )
+}
+
 // ── Clients tab ───────────────────────────────────────────────────────────────
 function ClientsTab({ clients, loading }) {
   if (loading) return <p style={s.muted}>Loading…</p>
   if (!clients.length) return <p style={s.muted}>No clients yet. Generate coaching and save to add one.</p>
+
+  const coaching = clients.filter(c => c.type === 'coaching')
+  const subscribers = clients.filter(c => c.type === 'subscriber')
+
   return (
     <div>
-      {clients.map(c => {
-        const sessions = c.coaching_sessions || []
-        const sent = sessions.filter(s => s.status === 'sent').length
-        const draft = sessions.filter(s => s.status === 'draft').length
-        return (
-          <div key={c.id} style={s.clientRow}>
-            <div style={{ flex: 1 }}>
-              <p style={{ fontWeight: 700, fontSize: 16, marginBottom: 4, fontFamily: 'Playfair Display,Georgia,serif' }}>{c.name}</p>
-              <p style={{ fontSize: 13, color: '#4A3728', marginBottom: 2 }}>{c.email}</p>
-              <p style={{ fontSize: 12, color: '#C8A96E', fontWeight: 600 }}>{c.stage || 'Undiagnosed'}</p>
-            </div>
-            <div style={{ textAlign: 'right', fontSize: 13, color: '#4A3728' }}>
-              <p>{sent} session{sent !== 1 ? 's' : ''} sent</p>
-              {draft > 0 && <p style={{ color: '#7B1C1C', fontWeight: 600 }}>{draft} draft pending</p>}
-              <p style={{ opacity: 0.5, marginTop: 4 }}>Added {fmt(c.created_at)}</p>
-            </div>
-          </div>
-        )
-      })}
+      <div style={{ marginBottom: 48 }}>
+        <p style={{ ...s.eyebrow, marginBottom: 16 }}>Coaching Clients — {coaching.length}</p>
+        {coaching.length === 0
+          ? <p style={s.muted}>No coaching clients yet. They appear here when someone pays via Lemon Squeezy.</p>
+          : coaching.map(c => <ClientRow key={c.id} c={c} isSubscriber={false} />)
+        }
+      </div>
+      <div>
+        <p style={{ ...s.eyebrow, marginBottom: 16 }}>Potential Clients (Subscribers) — {subscribers.length}</p>
+        {subscribers.length === 0
+          ? <p style={s.muted}>No subscribers logged yet. They appear here when someone submits the email capture form.</p>
+          : subscribers.map(c => <ClientRow key={c.id} c={c} isSubscriber={true} />)
+        }
+      </div>
     </div>
   )
 }

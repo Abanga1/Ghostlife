@@ -16,14 +16,18 @@ export default function EmailCapture({ id }) {
     setSubmitting(true)
     setError('')
     try {
-      if (FORM_URL) {
-        const res = await fetch(FORM_URL, {
+      await Promise.all([
+        FORM_URL ? fetch(FORM_URL, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
           body: JSON.stringify({ email }),
-        })
-        if (!res.ok) throw new Error()
-      }
+        }) : Promise.resolve(),
+        fetch('/api/save-subscriber', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email }),
+        }),
+      ])
       setSubmitted(true)
     } catch {
       setError('Something went wrong. Please try again.')
