@@ -23,6 +23,7 @@ import AffiliatePage from './pages/AffiliatePage'
 import ThankYouPage from './pages/ThankYouPage'
 import BlogPage from './pages/BlogPage'
 import ArticlePage from './pages/ArticlePage'
+import AssessmentPage from './pages/AssessmentPage'
 
 function HomePage() {
   const [showExit, setShowExit] = useState(false)
@@ -88,6 +89,7 @@ export default function App() {
         <Route path="/blog" element={<BlogPage />} />
         <Route path="/blog/:slug" element={<ArticlePage />} />
         <Route path="/coach" element={<CoachPage />} />
+        <Route path="/assessment" element={<AssessmentPage />} />
       </Routes>
       <CookieBanner />
     </>

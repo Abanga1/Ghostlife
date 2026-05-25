@@ -37,12 +37,23 @@ function Gate({ onAuth }) {
 }
 
 // ── Generate tab ─────────────────────────────────────────────────────────────
-function GenerateTab({ pw, clients, onSessionSaved }) {
+function GenerateTab({ pw, clients, onSessionSaved, prefill, onPrefillConsumed }) {
   const [clientId, setClientId] = useState('')
-  const [newName, setNewName] = useState('')
-  const [newEmail, setNewEmail] = useState('')
-  const [clientWords, setClientWords] = useState('')
+  const [newName, setNewName] = useState(() => prefill?.name || '')
+  const [newEmail, setNewEmail] = useState(() => prefill?.email || '')
+  const [clientWords, setClientWords] = useState(() => prefill?.words || '')
   const [notes, setNotes] = useState('')
+
+  // Apply prefill if it arrives after mount (tab switch)
+  React.useEffect(() => {
+    if (prefill) {
+      setIsNew(true)
+      setNewName(prefill.name || '')
+      setNewEmail(prefill.email || '')
+      setClientWords(prefill.words || '')
+      onPrefillConsumed?.()
+    }
+  }, [prefill]) // eslint-disable-line
   const [loading, setLoading] = useState(false)
   const [diagnosis, setDiagnosis] = useState('')
   const [result, setResult] = useState('')
@@ -298,6 +309,100 @@ function ApprovalsTab({ pw, drafts, onApproved }) {
   )
 }
 
+// ── Assessments tab ───────────────────────────────────────────────────────────
+function AssessmentsTab({ pw, assessments, loading, onGenerate, onMarkReviewed }) {
+  const [expanded, setExpanded] = useState(null)
+  const [marking, setMarking] = useState(null)
+
+  async function markReviewed(id) {
+    setMarking(id)
+    try {
+      await fetch(`/api/assessments?id=${id}`, {
+        method: 'PATCH',
+        headers: authHeaders(pw),
+        body: JSON.stringify({ status: 'reviewed' }),
+      })
+      onMarkReviewed(id)
+    } finally { setMarking(null) }
+  }
+
+  if (loading) return <p style={s.muted}>Loading…</p>
+  if (!assessments.length) return (
+    <p style={s.muted}>No assessments yet. Share <strong>ghostlifesyndrome.com/assessment</strong> with clients.</p>
+  )
+
+  const newOnes = assessments.filter(a => a.status === 'new')
+  const reviewed = assessments.filter(a => a.status !== 'new')
+
+  function renderRow(a) {
+    const isOpen = expanded === a.id
+    const words = [
+      a.situation && `SITUATION:\n${a.situation}`,
+      a.not_working && `NOT WORKING:\n${a.not_working}`,
+      a.tried && `WHAT THEY'VE TRIED:\n${a.tried}`,
+      a.wants && `WHAT THEY WANT:\n${a.wants}`,
+    ].filter(Boolean).join('\n\n')
+
+    return (
+      <div key={a.id} style={{ ...s.draftRow, borderLeftColor: a.status === 'new' ? '#7B1C1C' : 'rgba(26,26,26,0.12)', borderLeftWidth: 3 }}>
+        <div style={s.draftHeader}>
+          <div>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 4 }}>
+              <p style={{ fontWeight: 700, fontSize: 15, fontFamily: 'Playfair Display,Georgia,serif' }}>
+                {a.name || '(no name)'}
+              </p>
+              {a.status === 'new' && (
+                <span style={{ fontSize: 10, fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', background: '#7B1C1C', color: '#F5EFE0', padding: '2px 8px', borderRadius: 2 }}>New</span>
+              )}
+            </div>
+            <p style={{ fontSize: 13, color: '#4A3728', marginBottom: 2 }}>{a.email}</p>
+            <p style={{ fontSize: 12, opacity: 0.45 }}>{fmt(a.created_at)}</p>
+          </div>
+          <div style={{ display: 'flex', gap: 8, alignItems: 'center', flexWrap: 'wrap', justifyContent: 'flex-end' }}>
+            <button onClick={() => setExpanded(isOpen ? null : a.id)} style={s.btnOutline}>
+              {isOpen ? 'Hide' : 'Read'}
+            </button>
+            {a.status === 'new' && (
+              <button onClick={() => markReviewed(a.id)} style={{ ...s.btnOutline, opacity: 0.7 }} disabled={marking === a.id}>
+                {marking === a.id ? '…' : 'Mark reviewed'}
+              </button>
+            )}
+            <button onClick={() => onGenerate({ name: a.name, email: a.email, words })} style={s.btnPrimary}>
+              Generate Coaching
+            </button>
+          </div>
+        </div>
+        {isOpen && (
+          <div style={s.draftBody}>
+            {words.split('\n').map((l, i) =>
+              l.trim()
+                ? <p key={i} style={{ ...s.para, ...(l.endsWith(':') ? { fontWeight: 700, fontSize: 11, letterSpacing: '0.12em', textTransform: 'uppercase', color: '#C8A96E', marginTop: 16, marginBottom: 4 } : {}) }}>{l}</p>
+                : <br key={i} />
+            )}
+          </div>
+        )}
+      </div>
+    )
+  }
+
+  return (
+    <div>
+      {newOnes.length > 0 && (
+        <div style={{ marginBottom: 40 }}>
+          <p style={{ ...s.eyebrow, marginBottom: 16 }}>New — {newOnes.length}</p>
+          {newOnes.map(renderRow)}
+        </div>
+      )}
+      {reviewed.length > 0 && (
+        <div>
+          <p style={{ ...s.eyebrow, marginBottom: 16 }}>Reviewed — {reviewed.length}</p>
+          {reviewed.map(renderRow)}
+        </div>
+      )}
+    </div>
+  )
+}
+
 // ── Main ──────────────────────────────────────────────────────────────────────
 export default function CoachPage() {
   const [pw, setPw] = useState(() => sessionStorage.getItem('coach_pw') || '')
@@ -305,7 +410,10 @@ export default function CoachPage() {
   const [tab, setTab] = useState('generate')
   const [clients, setClients] = useState([])
   const [drafts, setDrafts] = useState([])
+  const [assessments, setAssessments] = useState([])
   const [loadingClients, setLoadingClients] = useState(false)
+  const [loadingAssessments, setLoadingAssessments] = useState(false)
+  const [generatePrefill, setGeneratePrefill] = useState(null)
 
   const loadClients = useCallback(async (password) => {
     setLoadingClients(true)
@@ -319,18 +427,35 @@ export default function CoachPage() {
     } finally { setLoadingClients(false) }
   }, [])
 
+  const loadAssessments = useCallback(async (password) => {
+    setLoadingAssessments(true)
+    try {
+      const res = await fetch('/api/assessments', { headers: authHeaders(password) })
+      if (res.ok) setAssessments(await res.json())
+    } finally { setLoadingAssessments(false) }
+  }, [])
+
   useEffect(() => {
-    if (authed && pw) loadClients(pw)
-  }, [authed, pw, loadClients])
+    if (authed && pw) {
+      loadClients(pw)
+      loadAssessments(pw)
+    }
+  }, [authed, pw, loadClients, loadAssessments])
 
   function handleAuth(password) {
     setPw(password)
     setAuthed(true)
   }
 
+  function handleGenerateFromAssessment(prefill) {
+    setGeneratePrefill(prefill)
+    setTab('generate')
+  }
+
   if (!authed) return <Gate onAuth={handleAuth} />
 
   const pendingCount = drafts.length
+  const newAssessments = assessments.filter(a => a.status === 'new').length
 
   return (
     <div style={s.page}>
@@ -343,6 +468,7 @@ export default function CoachPage() {
         <div style={s.tabs}>
           {[
             { key: 'generate', label: 'Generate' },
+            { key: 'assessments', label: `Assessments${newAssessments ? ` · ${newAssessments}` : ''}`, alert: newAssessments > 0 },
             { key: 'clients', label: `Clients (${clients.length})` },
             { key: 'approvals', label: `Approvals${pendingCount ? ` · ${pendingCount}` : ''}`, alert: pendingCount > 0 },
           ].map(t => (
@@ -354,7 +480,13 @@ export default function CoachPage() {
         </div>
 
         {tab === 'generate' && (
-          <GenerateTab pw={pw} clients={clients} onSessionSaved={() => loadClients(pw)} />
+          <GenerateTab pw={pw} clients={clients} onSessionSaved={() => loadClients(pw)}
+            prefill={generatePrefill} onPrefillConsumed={() => setGeneratePrefill(null)} />
+        )}
+        {tab === 'assessments' && (
+          <AssessmentsTab pw={pw} assessments={assessments} loading={loadingAssessments}
+            onGenerate={handleGenerateFromAssessment}
+            onMarkReviewed={id => setAssessments(a => a.map(x => x.id === id ? { ...x, status: 'reviewed' } : x))} />
         )}
         {tab === 'clients' && (
           <ClientsTab clients={clients} loading={loadingClients} />

@@ -1196,6 +1196,181 @@ body {
   .blog-preview__grid { grid-template-columns: 1fr; }
 }
 
+/* ── Assessment Page ── */
+.assess-page {
+  background: var(--cream);
+  min-height: 100vh;
+  padding: 120px 24px 80px;
+}
+
+.assess-page__inner {
+  max-width: 680px;
+}
+
+.assess-page__eyebrow {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--maroon);
+  margin-bottom: 20px;
+}
+
+.assess-page__header {
+  margin-bottom: 48px;
+}
+
+.assess-page__title {
+  font-family: var(--serif);
+  font-size: clamp(32px, 5vw, 52px);
+  font-weight: 700;
+  line-height: 1.1;
+  color: var(--dark);
+  margin-bottom: 20px;
+}
+
+.assess-page__subtitle {
+  font-size: 17px;
+  line-height: 1.75;
+  color: var(--mid);
+  max-width: 560px;
+}
+
+.assess-page__progress {
+  height: 3px;
+  background: rgba(74,55,40,0.12);
+  border-radius: 2px;
+  margin-bottom: 12px;
+  overflow: hidden;
+}
+
+.assess-page__progress-fill {
+  height: 100%;
+  background: var(--maroon);
+  border-radius: 2px;
+  transition: width 0.4s ease;
+}
+
+.assess-page__counter {
+  font-size: 12px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: rgba(74,55,40,0.45);
+  margin-bottom: 40px;
+}
+
+.assess-page__form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.assess-page__q-label {
+  font-family: var(--serif);
+  font-size: clamp(22px, 3.5vw, 30px);
+  font-weight: 700;
+  line-height: 1.25;
+  color: var(--dark);
+}
+
+.assess-page__q-hint {
+  font-size: 15px;
+  line-height: 1.65;
+  color: rgba(74,55,40,0.65);
+  margin-top: -8px;
+}
+
+.assess-page__textarea {
+  width: 100%;
+  background: #fff;
+  border: 1.5px solid rgba(74,55,40,0.18);
+  border-radius: 4px;
+  padding: 16px 18px;
+  font-family: var(--sans);
+  font-size: 16px;
+  line-height: 1.7;
+  color: var(--dark);
+  resize: vertical;
+  transition: border-color 0.2s;
+}
+.assess-page__textarea:focus {
+  outline: none;
+  border-color: var(--maroon);
+}
+.assess-page__textarea::placeholder { color: rgba(74,55,40,0.35); }
+
+.assess-page__contact-fields {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.assess-page__input {
+  width: 100%;
+  background: #fff;
+  border: 1.5px solid rgba(74,55,40,0.18);
+  border-radius: 4px;
+  padding: 14px 18px;
+  font-family: var(--sans);
+  font-size: 16px;
+  color: var(--dark);
+  transition: border-color 0.2s;
+}
+.assess-page__input:focus {
+  outline: none;
+  border-color: var(--maroon);
+}
+.assess-page__input::placeholder { color: rgba(74,55,40,0.35); }
+
+.assess-page__nav {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  margin-top: 8px;
+}
+
+.assess-page__back {
+  padding: 14px 28px;
+  font-size: 12px;
+}
+
+.assess-page__error {
+  color: var(--maroon);
+  font-size: 13px;
+}
+
+.assess-page__note {
+  font-size: 12px;
+  color: rgba(74,55,40,0.45);
+  letter-spacing: 0.03em;
+}
+
+.assess-page__done {
+  padding-top: 40px;
+}
+
+.assess-page__done-title {
+  font-family: var(--serif);
+  font-size: clamp(32px, 5vw, 52px);
+  font-weight: 700;
+  line-height: 1.1;
+  color: var(--dark);
+  margin-bottom: 28px;
+}
+
+.assess-page__done-body {
+  font-size: 17px;
+  line-height: 1.75;
+  color: var(--mid);
+  max-width: 520px;
+  margin-bottom: 16px;
+}
+
+@media (max-width: 600px) {
+  .assess-page__nav { flex-direction: column; align-items: stretch; }
+  .assess-page__back { text-align: center; }
+}
+
 /* ── Responsive ── */
 @media (max-width: 600px) {
   .signs__grid { grid-template-columns: 1fr; }
