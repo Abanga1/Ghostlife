@@ -1,5 +1,6 @@
 import crypto from 'crypto'
 import { supabase } from './_supabase.js'
+import { escHtml } from './_security.js'
 
 export default async function handler(req, res) {
   if (req.method !== 'POST') return res.status(405).end()
@@ -69,7 +70,7 @@ export default async function handler(req, res) {
         subject: `You're in.`,
         htmlContent: `<div style="font-family:Georgia,serif;max-width:560px;margin:0 auto;padding:40px 24px;color:#141414;line-height:1.85">
           <p style="font-size:11px;letter-spacing:0.2em;text-transform:uppercase;color:#C8A96E;margin-bottom:32px">Ghost Life Syndrome</p>
-          <h1 style="font-family:Georgia,serif;font-size:30px;font-weight:700;line-height:1.2;margin-bottom:24px">Your coaching has started${firstName ? ', ' + firstName : ''}.</h1>
+          <h1 style="font-family:Georgia,serif;font-size:30px;font-weight:700;line-height:1.2;margin-bottom:24px">Your coaching has started${firstName ? ', ' + escHtml(firstName) : ''}.</h1>
           <p style="font-size:16px;line-height:1.85;margin-bottom:16px">
             I have your details. Here is exactly what happens next.
           </p>
@@ -101,19 +102,19 @@ export default async function handler(req, res) {
         htmlContent: `<div style="font-family:Georgia,serif;max-width:600px;margin:0 auto;padding:40px 24px;color:#141414;line-height:1.8">
           <p style="font-size:11px;letter-spacing:0.2em;text-transform:uppercase;color:#C8A96E;margin-bottom:24px">Ghost Life Coaching</p>
           <h2 style="font-size:26px;font-weight:700;margin-bottom:8px">New client just purchased.</h2>
-          <p style="font-size:13px;color:#888;margin-bottom:32px">${productName || 'Coaching'}</p>
+          <p style="font-size:13px;color:#888;margin-bottom:32px">${escHtml(productName || 'Coaching')}</p>
           <table style="width:100%;border-collapse:collapse;margin-bottom:32px">
             <tr style="border-bottom:1px solid #eee">
               <td style="padding:12px 0;font-size:13px;color:#888;width:120px">Name</td>
-              <td style="padding:12px 0;font-size:15px;font-weight:600">${name || '—'}</td>
+              <td style="padding:12px 0;font-size:15px;font-weight:600">${escHtml(name || '—')}</td>
             </tr>
             <tr style="border-bottom:1px solid #eee">
               <td style="padding:12px 0;font-size:13px;color:#888">Email</td>
-              <td style="padding:12px 0;font-size:15px">${email}</td>
+              <td style="padding:12px 0;font-size:15px">${escHtml(email)}</td>
             </tr>
             <tr>
               <td style="padding:12px 0;font-size:13px;color:#888">Product</td>
-              <td style="padding:12px 0;font-size:15px">${productName || '—'}</td>
+              <td style="padding:12px 0;font-size:15px">${escHtml(productName || '—')}</td>
             </tr>
           </table>
           <p style="font-size:14px;color:#555;margin-bottom:32px">Their 7-day trial has started. Reach out within 24 hours to make the first impression count.</p>

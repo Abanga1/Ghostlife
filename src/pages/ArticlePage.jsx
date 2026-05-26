@@ -4,7 +4,7 @@ import { ARTICLES } from '../data/articles'
 import Footer from '../components/Footer'
 import SEO from '../components/SEO'
 
-const BOOK_URL = 'https://ghostlifesyndrome.lemonsqueezy.com/checkout/buy/61f7d117-9bee-48b0-ab43-c667f95f4ebc'
+const ASSESSMENT_URL = 'https://ghostlifesyndrome.lemonsqueezy.com/checkout/buy/34856ebd-5d34-4e1b-9973-212f8ae74c4e'
 
 function formatDate(iso) {
   return new Date(iso).toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' })
@@ -79,16 +79,16 @@ export default function ArticlePage() {
           </div>
 
           <div className="article__cta">
-            <p className="article__cta-label">Find your stage</p>
-            <h3 className="article__cta-title serif">Take the Ghost Life Syndrome quiz</h3>
+            <p className="article__cta-label">Find out exactly where you are</p>
+            <h3 className="article__cta-title serif">Get the Written Assessment</h3>
             <p className="article__cta-sub">
-              20 questions. Places you in one of five stages of disconnection. Free.
+              Tell me what's going on. I'll send back a detailed written breakdown of your stage and a clear path forward within 48 hours. Four questions. No calls.
             </p>
             <div className="article__cta-actions">
-              <Link to="/#quiz" className="btn btn--primary">Take the Quiz</Link>
-              <a href={BOOK_URL} className="btn btn--outline" target="_blank" rel="noreferrer">
-                Get the Book — $17
+              <a href={ASSESSMENT_URL} className="btn btn--primary" target="_blank" rel="noreferrer">
+                Get the Assessment — $56.99
               </a>
+              <Link to="/#quiz" className="btn btn--outline">Take the Free Quiz</Link>
             </div>
           </div>
         </div>

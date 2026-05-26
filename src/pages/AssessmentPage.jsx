@@ -59,7 +59,7 @@ export default function AssessmentPage() {
               className="btn btn--primary"
               target="_blank"
               rel="noreferrer"
-              style={{ marginTop: 32, display: 'inline-block' }}
+              style={{ marginTop: 32, display: 'inline-block', whiteSpace: 'nowrap' }}
             >
               Get the Assessment — $56.99
             </a>

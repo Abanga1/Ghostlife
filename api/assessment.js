@@ -1,11 +1,16 @@
 import { supabase } from './_supabase.js'
+import { rateLimit, truncate, escHtml } from './_security.js'
 
 export default async function handler(req, res) {
   if (req.method !== 'POST') return res.status(405).end()
+  if (rateLimit(req, 'assessment', { max: 5, windowMs: 60 * 60 * 1000 }))
+    return res.status(429).json({ error: 'Too many requests.' })
 
   const { email, name, situation, not_working, tried, wants } = req.body || {}
-  if (!email) return res.status(400).json({ error: 'email required' })
-  if (!situation) return res.status(400).json({ error: 'situation required' })
+  if (!email || typeof email !== 'string') return res.status(400).json({ error: 'email required' })
+  if (!situation || typeof situation !== 'string') return res.status(400).json({ error: 'situation required' })
+  if (email.length > 254) return res.status(400).json({ error: 'invalid email' })
+  if (situation.length > 5000) return res.status(400).json({ error: 'situation too long' })
 
   const db = supabase()
 
@@ -13,12 +18,12 @@ export default async function handler(req, res) {
   const { data: assessment, error: aErr } = await db
     .from('assessments')
     .insert({
-      email,
-      name: name || '',
-      situation,
-      not_working: not_working || '',
-      tried: tried || '',
-      wants: wants || '',
+      email: truncate(email.toLowerCase().trim(), 'email'),
+      name: truncate(name || '', 'name'),
+      situation: truncate(situation, 'long'),
+      not_working: truncate(not_working || '', 'medium'),
+      tried: truncate(tried || '', 'medium'),
+      wants: truncate(wants || '', 'medium'),
       status: 'new',
     })
     .select()
@@ -57,7 +62,7 @@ export default async function handler(req, res) {
 <p style="font-size:13px;letter-spacing:0.15em;text-transform:uppercase;color:#C8A96E;margin-bottom:24px">Ghost Life Syndrome</p>
 <h1 style="font-family:Georgia,serif;font-size:28px;font-weight:700;margin-bottom:20px;line-height:1.2">Your intake is in.</h1>
 <p style="font-size:16px;line-height:1.7;margin-bottom:16px">
-  I've received your assessment${name ? ', ' + name.split(' ')[0] : ''}.
+  I've received your assessment${name ? ', ' + escHtml(name.split(' ')[0]) : ''}.
 </p>
 <p style="font-size:16px;line-height:1.7;margin-bottom:16px">
   I will read everything you wrote. Within 48 hours you will receive a detailed written response —

@@ -1231,7 +1231,7 @@ body {
   margin-bottom: 40px;
 }
 
-.assess-cta__btn { padding: 18px 48px !important; font-size: 14px !important; }
+.assess-cta__btn { padding: 18px 48px !important; font-size: 14px !important; white-space: nowrap; }
 
 .assess-cta__note {
   margin-top: 20px;

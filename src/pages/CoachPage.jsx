@@ -90,6 +90,7 @@ function GenerateTab({ pw, clients, onSessionSaved, prefill, onPrefillConsumed }
         body: JSON.stringify({
           clientName: isNew ? newName : clients.find(c => c.id === clientId)?.name,
           clientStage: isNew ? '' : clients.find(c => c.id === clientId)?.stage,
+          isaacNotes: isNew ? '' : (clients.find(c => c.id === clientId)?.isaac_notes || ''),
           clientWords,
           notes,
           previousSessions: isNew ? [] : previousSessions,
@@ -248,11 +249,26 @@ function ClientRow({ c, isSubscriber, pw, onStageUpdated }) {
   const sessions = c.coaching_sessions || []
   const sent = sessions.filter(s => s.status === 'sent').length
   const draft = sessions.filter(s => s.status === 'draft').length
+  const lastSentDate = sessions.filter(s => s.status === 'sent').sort((a, b) => new Date(b.created_at) - new Date(a.created_at))[0]?.created_at
+  const daysSinceSession = lastSentDate ? Math.floor((Date.now() - new Date(lastSentDate)) / 86400000) : null
   const [saving, setSaving] = useState(false)
   const [expanded, setExpanded] = useState(false)
   const [history, setHistory] = useState([])
   const [loadingHistory, setLoadingHistory] = useState(false)
   const [expandedSession, setExpandedSession] = useState(null)
+  const [isaacNotes, setIsaacNotes] = useState(c.isaac_notes || '')
+  const [notesSaved, setNotesSaved] = useState(false)
+
+  async function saveNotes() {
+    if (isaacNotes === (c.isaac_notes || '')) return
+    await fetch('/api/clients', {
+      method: 'PATCH',
+      headers: authHeaders(pw),
+      body: JSON.stringify({ id: c.id, isaac_notes: isaacNotes }),
+    })
+    setNotesSaved(true)
+    setTimeout(() => setNotesSaved(false), 2000)
+  }
 
   async function updateStage(stage) {
     setSaving(true)
@@ -310,10 +326,18 @@ function ClientRow({ c, isSubscriber, pw, onStageUpdated }) {
             </p>
           )}
           {draft > 0 && <p style={{ color: '#7B1C1C', fontWeight: 600 }}>{draft} draft pending</p>}
+          {!isSubscriber && daysSinceSession !== null && (
+            <p style={{ fontSize: 12, marginTop: 4, fontWeight: daysSinceSession > 7 ? 600 : 400, color: daysSinceSession > 14 ? '#C0392B' : daysSinceSession > 7 ? '#C8A96E' : '#888' }}>
+              {daysSinceSession === 0 ? 'Session sent today' : `${daysSinceSession}d since last session`}
+            </p>
+          )}
+          {!isSubscriber && daysSinceSession === null && sent === 0 && (
+            <p style={{ fontSize: 12, marginTop: 4, color: '#C8A96E', fontWeight: 600 }}>No sessions yet</p>
+          )}
           <p style={{ opacity: 0.5, marginTop: 4 }}>{isSubscriber ? 'Subscribed' : 'Added'} {fmt(c.created_at)}</p>
-          {!isSubscriber && sent > 0 && (
+          {!isSubscriber && (
             <p style={{ fontSize: 11, color: '#7B1C1C', marginTop: 6, fontWeight: 600, letterSpacing: '0.04em' }}>
-              {expanded ? '▲ Hide sessions' : '▼ View sessions'}
+              {expanded ? '▲ Collapse' : '▼ ' + (sent > 0 ? 'View sessions' : 'Add notes')}
             </p>
           )}
         </div>
@@ -321,10 +345,22 @@ function ClientRow({ c, isSubscriber, pw, onStageUpdated }) {
 
       {expanded && !isSubscriber && (
         <div style={{ background: '#F8F5EE', padding: '0 0 24px' }}>
+          <div style={{ borderTop: '1px solid rgba(26,26,26,0.08)', paddingTop: 20, paddingBottom: 4 }}>
+            <p style={{ fontSize: 10, fontWeight: 700, letterSpacing: '0.15em', textTransform: 'uppercase', color: '#4A3728', marginBottom: 10, opacity: 0.6 }}>
+              Pattern notes {notesSaved && <span style={{ color: '#C8A96E', opacity: 1 }}>· saved</span>}
+            </p>
+            <textarea
+              value={isaacNotes}
+              onChange={e => setIsaacNotes(e.target.value)}
+              onBlur={saveNotes}
+              placeholder="Recurring language, stuck points, what they avoid, what they circle without naming…"
+              style={{ width: '100%', minHeight: 72, background: 'rgba(255,255,255,0.7)', border: '1px solid rgba(26,26,26,0.12)', borderRadius: 2, padding: '10px 12px', fontSize: 13, fontFamily: 'Inter,system-ui,sans-serif', color: '#141414', resize: 'vertical', boxSizing: 'border-box', lineHeight: 1.6 }}
+            />
+          </div>
           {loadingHistory
             ? <p style={{ ...s.muted, padding: '20px 0 0' }}>Loading sessions…</p>
             : history.length === 0
-              ? <p style={{ ...s.muted, padding: '20px 0 0' }}>No sent sessions yet.</p>
+              ? null
               : history.map(session => (
                 <div key={session.id} style={{ borderTop: '1px solid rgba(26,26,26,0.08)', marginTop: 0 }}>
                   <div

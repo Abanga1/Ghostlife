@@ -26,6 +26,7 @@ import ArticlePage from './pages/ArticlePage'
 import AssessmentPage from './pages/AssessmentPage'
 import ClientPortal from './pages/ClientPortal'
 import AssessmentCTA from './components/AssessmentCTA'
+import BlogPreview from './components/BlogPreview'
 
 function HomePage() {
   const [showExit, setShowExit] = useState(false)
@@ -74,6 +75,7 @@ function HomePage() {
       <div className="divider">◆ ◆ ◆</div>
       <div id="faq"><FaqSection /></div>
       <AssessmentCTA />
+      <BlogPreview />
       <Footer />
     </>
   )

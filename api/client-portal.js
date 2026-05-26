@@ -1,4 +1,5 @@
 import { supabase } from './_supabase.js'
+import { rateLimit, truncate, escHtml } from './_security.js'
 
 const STAGES = {
   'Stage 1': 'You are still mostly present but something is slowly draining. The gap between your outer life and inner experience is growing.',
@@ -55,8 +56,14 @@ export default async function handler(req, res) {
   }
 
   if (req.method === 'POST') {
+    if (rateLimit(req, 'portal', { max: 10, windowMs: 60 * 60 * 1000 }))
+      return res.status(429).json({ error: 'Too many requests.' })
+
     const { email, words } = req.body || {}
-    if (!email || !words?.trim()) return res.status(400).json({ error: 'email and words required' })
+    if (!email || typeof email !== 'string') return res.status(400).json({ error: 'email and words required' })
+    if (!words || typeof words !== 'string' || !words.trim()) return res.status(400).json({ error: 'email and words required' })
+    if (email.length > 254) return res.status(400).json({ error: 'invalid email' })
+    if (words.length > 5000) return res.status(400).json({ error: 'words too long' })
 
     const { data: client, error: cErr } = await db
       .from('clients')
@@ -102,10 +109,10 @@ export default async function handler(req, res) {
           subject: `Check-in from ${client.name} — Session ${(count || 0) + 1}`,
           htmlContent: `<div style="font-family:Georgia,serif;max-width:600px;margin:0 auto;padding:40px 24px;color:#141414;line-height:1.8">
             <p style="font-size:11px;letter-spacing:0.2em;text-transform:uppercase;color:#C8A96E;margin-bottom:24px">Ghost Life Coaching</p>
-            <h2 style="font-size:24px;font-weight:700;margin-bottom:8px">${client.name} wrote in</h2>
-            <p style="font-size:13px;color:#888;margin-bottom:32px">${client.stage || 'Undiagnosed'} &nbsp;·&nbsp; Session ${(count || 0) + 1} &nbsp;·&nbsp; ${client.email}</p>
+            <h2 style="font-size:24px;font-weight:700;margin-bottom:8px">${escHtml(client.name)} wrote in</h2>
+            <p style="font-size:13px;color:#888;margin-bottom:32px">${escHtml(client.stage || 'Undiagnosed')} &nbsp;·&nbsp; Session ${(count || 0) + 1} &nbsp;·&nbsp; ${escHtml(client.email)}</p>
             <div style="background:#F5EFE0;padding:28px 32px;border-left:4px solid #7B1C1C;margin-bottom:32px">
-              <p style="font-size:16px;line-height:1.85;white-space:pre-wrap;margin:0">${words.trim()}</p>
+              <p style="font-size:16px;line-height:1.85;white-space:pre-wrap;margin:0">${escHtml(words.trim())}</p>
             </div>
             <a href="https://ghostlifesyndrome.com/coach" style="display:inline-block;padding:14px 32px;background:#7B1C1C;color:#F5EFE0;text-decoration:none;font-family:Inter,system-ui,sans-serif;font-size:13px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase">Open Dashboard →</a>
           </div>`,

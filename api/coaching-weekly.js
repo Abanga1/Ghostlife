@@ -1,118 +1,103 @@
+// Weekly coaching digest — runs every Monday at 9am via Vercel cron
+// Emails Isaac a list of every active client, categorised by urgency.
+
 import { supabase } from './_supabase.js'
 
-const SYSTEM_PROMPT = `You are a coaching assistant for Ghost Life Syndrome — a framework created by Isaac for people who are living but not feeling alive.
-
-THE FRAMEWORK — Five stages of emotional disconnection:
-Stage 1 — The Fade: Growing gap between outer life and inner experience. Things feel slightly muted.
-Stage 2 — The Mask: Skilled at performing their life. The gap between appearance and emptiness has become the default.
-Stage 3 — The Shell: Operating almost entirely on autopilot. Genuine emotional response is rare.
-Stage 4 — The Hollow: Deep prolonged disconnection. Forgotten what full feels like. Quiet dread.
-Stage 5 — The Return: Something has cracked open. Beginning to feel again, looking for a map forward.
-
-COACHING PHILOSOPHY:
-- Do not offer generic advice
-- The path back is specific to the stage
-- Small, honest re-entries beat dramatic overhauls
-- Naming what is happening precisely is itself movement
-- Warm but direct, no fluff, no cheerleading
-
-YOUR ROLE:
-Write a follow-up coaching email for a client Isaac is working with. This is session {SESSION_NUMBER}.
-
-You will be given:
-- The client's diagnosed stage
-- A summary of their previous sessions
-- Any recent words or notes from the client
-
-The email should:
-- Open by referencing something specific from the previous session
-- Deepen the work — don't repeat what was already said
-- Offer one new observation or reframe appropriate to their stage and progress
-- Give one small, specific action for this week
-- End with a question that invites them to reflect and respond
-- Length: 350-500 words
-- Written as if from Isaac directly to the client`
+function daysSince(iso) {
+  if (!iso) return null
+  return Math.floor((Date.now() - new Date(iso).getTime()) / 86400000)
+}
 
 export default async function handler(req, res) {
   if (req.method !== 'GET' && req.method !== 'POST') return res.status(405).end()
 
+  const brevoKey = process.env.BREVO_API_KEY
+  if (!brevoKey) return res.status(500).json({ error: 'no brevo key' })
+
   const db = supabase()
-  const apiKey = process.env.ANTHROPIC_API_KEY
-  if (!apiKey) return res.status(500).json({ error: 'no anthropic key' })
 
-  const now = new Date().toISOString()
-
-  // Find active clients whose next session is due
   const { data: clients, error } = await db
     .from('clients')
-    .select(`*, coaching_sessions(id, session_number, coaching, diagnosis, client_words, status, created_at)`)
+    .select(`*, coaching_sessions(id, status, created_at, session_number)`)
+    .eq('type', 'coaching')
     .eq('active', true)
-    .lte('next_session_due', now)
+    .order('created_at', { ascending: false })
 
   if (error) return res.status(500).json({ error: error.message })
+  if (!clients.length) return res.status(200).json({ ok: true, message: 'No active clients' })
 
-  const results = { generated: 0, skipped: 0, errors: 0 }
+  const needsResponse = []  // client submitted, waiting on Isaac
+  const reachOut = []       // no recent activity, Isaac should initiate
+  const onTrack = []        // recently active
 
   for (const client of clients) {
-    // Skip if there's already an unsent draft
-    const hasDraft = client.coaching_sessions?.some(s => s.status === 'draft')
-    if (hasDraft) { results.skipped++; continue }
+    const sessions = client.coaching_sessions || []
+    const pending = sessions.find(s => s.status === 'client_submitted')
+    const sentSessions = sessions.filter(s => s.status === 'sent').sort((a, b) => new Date(b.created_at) - new Date(a.created_at))
+    const lastSent = sentSessions[0]?.created_at
+    const days = daysSince(lastSent)
 
-    const sessions = (client.coaching_sessions || [])
-      .filter(s => s.status === 'sent')
-      .sort((a, b) => a.session_number - b.session_number)
+    const row = { name: client.name, stage: client.stage || 'undiagnosed', sessions: sentSessions.length, days, pending }
 
-    const sessionNumber = sessions.length + 1
-    const lastSession = sessions[sessions.length - 1]
-
-    const previousSummary = sessions.map(s =>
-      `Session ${s.session_number}: ${s.coaching.slice(0, 300)}...`
-    ).join('\n\n')
-
-    const prompt = `Client name: ${client.name}
-Diagnosed stage: ${client.stage || 'Unknown'}
-Total sessions so far: ${sessions.length}
-
-Previous sessions summary:
-${previousSummary || 'This is the first follow-up.'}
-
-Last session coaching excerpt:
-${lastSession?.coaching?.slice(0, 500) || 'No previous session.'}
-
-Additional notes: ${client.notes || 'none'}`
-
-    try {
-      const response = await fetch('https://api.anthropic.com/v1/messages', {
-        method: 'POST',
-        headers: {
-          'x-api-key': apiKey,
-          'anthropic-version': '2023-06-01',
-          'content-type': 'application/json',
-        },
-        body: JSON.stringify({
-          model: 'claude-opus-4-7',
-          max_tokens: 1024,
-          system: SYSTEM_PROMPT.replace('{SESSION_NUMBER}', sessionNumber),
-          messages: [{ role: 'user', content: prompt }],
-        }),
-      })
-
-      const data = await response.json()
-      const coaching = data.content?.[0]?.text || ''
-      if (!coaching) { results.errors++; continue }
-
-      await db.from('coaching_sessions').insert({
-        client_id: client.id,
-        coaching,
-        session_number: sessionNumber,
-        status: 'draft',
-      })
-
-      results.generated++
-    } catch {
-      results.errors++
+    if (pending) {
+      needsResponse.push({ ...row, pendingDays: daysSince(pending.created_at) })
+    } else if (days === null || days > 10) {
+      reachOut.push(row)
+    } else {
+      onTrack.push(row)
     }
   }
 
-  return res.status(200).json({ ok: true, ...results, clientsChecked: clients.length })
+  function clientLine(r) {
+    const sessionBadge = r.sessions === 0 ? 'no sessions yet' : `${r.sessions} session${r.sessions !== 1 ? 's' : ''} sent`
+    const lastLine = r.days === null ? 'never contacted' : r.days === 0 ? 'last session today' : `last session ${r.days} day${r.days !== 1 ? 's' : ''} ago`
+    const pendingLine = r.pending ? ` · <strong>submitted ${r.pendingDays}d ago</strong>` : ''
+    return `<tr>
+      <td style="padding:10px 0;border-bottom:1px solid #eee;font-size:15px;font-weight:600;font-family:Georgia,serif">${r.name}</td>
+      <td style="padding:10px 16px;border-bottom:1px solid #eee;font-size:13px;color:#888">${r.stage}</td>
+      <td style="padding:10px 0;border-bottom:1px solid #eee;font-size:13px;color:#555">${sessionBadge} · ${lastLine}${pendingLine}</td>
+    </tr>`
+  }
+
+  function section(title, color, items, emptyMsg) {
+    if (!items.length) return `<p style="font-size:13px;color:#aaa;margin-bottom:32px">${emptyMsg}</p>`
+    return `<table style="width:100%;border-collapse:collapse;margin-bottom:32px">
+      <tr><td colspan="3" style="padding-bottom:8px">
+        <p style="font-size:11px;letter-spacing:0.15em;text-transform:uppercase;color:${color};font-weight:700;margin:0">${title}</p>
+      </td></tr>
+      ${items.map(clientLine).join('')}
+    </table>`
+  }
+
+  const weekStr = new Date().toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' })
+  const totalClients = clients.length
+
+  const html = `<div style="font-family:Georgia,serif;max-width:600px;margin:0 auto;padding:40px 24px;color:#141414;line-height:1.8">
+    <p style="font-size:11px;letter-spacing:0.2em;text-transform:uppercase;color:#C8A96E;margin-bottom:32px">Ghost Life Coaching</p>
+    <h2 style="font-size:26px;font-weight:700;margin-bottom:4px">Weekly coaching check.</h2>
+    <p style="font-size:13px;color:#888;margin-bottom:40px">${weekStr} · ${totalClients} active client${totalClients !== 1 ? 's' : ''}</p>
+
+    ${section('Needs your response', '#C0392B', needsResponse, 'No pending responses.')}
+    ${section('Reach out — gone quiet', '#C8A96E', reachOut, 'No one has gone quiet.')}
+    ${section('On track', '#4A3728', onTrack, 'No active sessions yet.')}
+
+    <a href="https://ghostlifesyndrome.com/coach" style="display:inline-block;padding:14px 32px;background:#7B1C1C;color:#F5EFE0;text-decoration:none;font-family:Inter,system-ui,sans-serif;font-size:13px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;margin-top:8px">Open Dashboard →</a>
+
+    <p style="font-size:13px;color:#aaa;margin-top:40px;padding-top:24px;border-top:1px solid #eee">
+      Ghost Life Syndrome · Sent every Monday at 9am
+    </p>
+  </div>`
+
+  await fetch('https://api.brevo.com/v3/smtp/email', {
+    method: 'POST',
+    headers: { 'api-key': brevoKey, 'content-type': 'application/json' },
+    body: JSON.stringify({
+      sender: { name: 'Ghost Life Portal', email: 'isaac@ghostlifesyndrome.com' },
+      to: [{ email: 'isaac@ghostlifesyndrome.com', name: 'Isaac' }],
+      subject: `Coaching check — ${weekStr}`,
+      htmlContent: html,
+    }),
+  })
+
+  return res.status(200).json({ ok: true, needsResponse: needsResponse.length, reachOut: reachOut.length, onTrack: onTrack.length })
 }
