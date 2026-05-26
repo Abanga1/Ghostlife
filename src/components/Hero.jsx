@@ -1,6 +1,6 @@
 import React from 'react'
 
-const BOOK_URL = 'https://ghostlifesyndrome.lemonsqueezy.com/checkout/buy/61f7d117-9bee-48b0-ab43-c667f95f4ebc'
+const BOOK_URL = 'https://buy.stripe.com/7sY7sLdEH8SD0YY8cM67S00'
 
 export default function Hero({ onEmailClick }) {
   return (

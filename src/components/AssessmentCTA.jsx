@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from 'react'
 
-const ASSESSMENT_URL = 'https://ghostlifesyndrome.lemonsqueezy.com/checkout/buy/34856ebd-5d34-4e1b-9973-212f8ae74c4e'
+const ASSESSMENT_URL = 'https://buy.stripe.com/6oU00j303d8TePO64E67S01'
 
 export default function AssessmentCTA() {
   const ref = useRef(null)
@@ -34,7 +34,7 @@ export default function AssessmentCTA() {
             Get the Assessment — $56.99
           </a>
         </div>
-        <p className="assess-cta__note reveal">Secure checkout via Lemon Squeezy. Delivered within 48 hours.</p>
+        <p className="assess-cta__note reveal">Secure checkout via Stripe. Delivered within 48 hours.</p>
       </div>
     </section>
   )

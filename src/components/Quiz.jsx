@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { QUIZ_QUESTIONS, STAGES } from '../data'
 
-const BOOK_URL = 'https://ghostlifesyndrome.lemonsqueezy.com/checkout/buy/61f7d117-9bee-48b0-ab43-c667f95f4ebc'
+const BOOK_URL = 'https://buy.stripe.com/7sY7sLdEH8SD0YY8cM67S00'
 const FORM_URL = import.meta.env.VITE_EMAIL_FORM_URL || ''
 const SITE_URL = 'https://ghostlifesyndrome.com'
 

@@ -41,7 +41,7 @@ export default function TermsPage() {
           </Section>
 
           <Section title="Payments & Refunds">
-            <p>All payments are processed securely by LemonSqueezy. Prices are displayed in USD.</p>
+            <p>All payments are processed securely by Stripe. Prices are displayed in USD.</p>
             <p>Digital products (e-books) are non-refundable once delivered, as access is granted immediately upon purchase. If you experience a technical issue with your download, contact us within 7 days and we will resolve it.</p>
             <p>Physical book orders fulfilled through Amazon are subject to Amazon's return policy.</p>
           </Section>

@@ -5,7 +5,7 @@ import SEO from '../components/SEO'
 
 const steps = [
   { num: '01', title: 'Apply', desc: 'Send a short note about your platform and audience. We review every application.' },
-  { num: '02', title: 'Get Your Link', desc: 'Once approved, you receive a unique affiliate link tracked through LemonSqueezy.' },
+  { num: '02', title: 'Get Your Link', desc: 'Once approved, you receive a unique affiliate link tracked through Stripe.' },
   { num: '03', title: 'Earn', desc: 'Earn 20% commission on every sale made through your link. Payouts are monthly.' },
 ]
 

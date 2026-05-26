@@ -40,7 +40,7 @@ export default function PrivacyPage() {
             <p>We collect information you provide directly:</p>
             <ul>
               <li>Name and email when you subscribe to the newsletter or submit a contact form</li>
-              <li>Purchase details processed by LemonSqueezy — we do not store your payment information</li>
+              <li>Purchase details processed by Stripe — we do not store your payment information</li>
               <li>Any message content you submit through our contact form</li>
             </ul>
           </Section>
@@ -58,7 +58,7 @@ export default function PrivacyPage() {
           <Section title="Third-Party Services">
             <p>The following services may process your data:</p>
             <ul>
-              <li><strong>LemonSqueezy</strong> — payment processing. Their privacy policy governs transactions.</li>
+              <li><strong>Stripe</strong> — payment processing. Their privacy policy governs transactions.</li>
               <li><strong>Google Fonts</strong> — font delivery. Google may log font requests per their policy.</li>
             </ul>
           </Section>

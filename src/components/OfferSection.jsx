@@ -1,9 +1,9 @@
 import React, { useEffect, useRef } from 'react'
 
 const URLS = {
-  book:       'https://ghostlifesyndrome.lemonsqueezy.com/checkout/buy/61f7d117-9bee-48b0-ab43-c667f95f4ebc',
-  assessment: 'https://ghostlifesyndrome.lemonsqueezy.com/checkout/buy/34856ebd-5d34-4e1b-9973-212f8ae74c4e',
-  programme:  'https://ghostlifesyndrome.lemonsqueezy.com/checkout/buy/2fe39d4a-9fe7-4666-87e3-abc2484e24d6',
+  book:       'https://buy.stripe.com/7sY7sLdEH8SD0YY8cM67S00',
+  assessment: 'https://buy.stripe.com/6oU00j303d8TePO64E67S01',
+  programme:  'https://buy.stripe.com/00w00jdEH6KvePOeBa67S02',
 }
 
 const TIERS = [
@@ -116,7 +116,7 @@ export default function OfferSection() {
           ))}
         </div>
         <p className="reveal" style={{ textAlign: 'center', marginTop: 28, fontSize: 13, opacity: 0.35 }}>
-          Secure checkout via Lemon Squeezy. PDF delivered instantly. 30-day refund policy.
+          Secure checkout via Stripe. PDF delivered instantly. 30-day refund policy.
         </p>
       </div>
     </section>

@@ -6,7 +6,7 @@ import Footer from '../components/Footer'
 import SEO from '../components/SEO'
 
 const BASE_URL = 'https://ghostlifesyndrome.com'
-const ASSESSMENT_URL = 'https://ghostlifesyndrome.lemonsqueezy.com/checkout/buy/34856ebd-5d34-4e1b-9973-212f8ae74c4e'
+const ASSESSMENT_URL = 'https://buy.stripe.com/6oU00j303d8TePO64E67S01'
 
 function formatDate(iso) {
   return new Date(iso).toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' })

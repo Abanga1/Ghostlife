@@ -413,7 +413,7 @@ function ClientsTab({ clients, loading, pw, onStageUpdated }) {
       <div style={{ marginBottom: 48 }}>
         <p style={{ ...s.eyebrow, marginBottom: 16 }}>Coaching Clients — {coaching.length}</p>
         {coaching.length === 0
-          ? <p style={s.muted}>No coaching clients yet. They appear here when someone pays via Lemon Squeezy.</p>
+          ? <p style={s.muted}>No coaching clients yet. They appear here when someone pays via Stripe.</p>
           : coaching.map(c => <ClientRow key={c.id} c={c} isSubscriber={false} pw={pw} onStageUpdated={onStageUpdated} />)
         }
       </div>
