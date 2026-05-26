@@ -1,14 +1,11 @@
-// Shared security utilities for all API routes
+import { supabase } from './_supabase.js'
 
-// ── Rate limiting ─────────────────────────────────────────────────────────────
+// ── In-memory fallback (used when DB is unavailable) ──────────────────────────
 const stores = new Map()
 
-export function rateLimit(req, key, { max = 10, windowMs = 60 * 60 * 1000 } = {}) {
-  const ip = req.headers['x-forwarded-for']?.split(',')[0]?.trim() || 'unknown'
-  const storeKey = `${key}:${ip}`
+function inMemoryRateLimit(storeKey, max, windowMs) {
   const now = Date.now()
   const entry = stores.get(storeKey) || { count: 0, windowStart: now }
-
   if (now - entry.windowStart > windowMs) {
     stores.set(storeKey, { count: 1, windowStart: now })
     return false
@@ -16,6 +13,26 @@ export function rateLimit(req, key, { max = 10, windowMs = 60 * 60 * 1000 } = {}
   entry.count++
   stores.set(storeKey, entry)
   return entry.count > max
+}
+
+// ── Rate limiting ─────────────────────────────────────────────────────────────
+// Persistent across serverless instances via Supabase; falls back to in-memory.
+// Run SUPABASE_SETUP SQL below once before deploying.
+export async function rateLimit(req, key, { max = 10, windowMs = 60 * 60 * 1000 } = {}) {
+  const ip = req.headers['x-forwarded-for']?.split(',')[0]?.trim() || 'unknown'
+  const storeKey = `${key}:${ip}`
+  try {
+    const db = supabase()
+    const { data, error } = await db.rpc('check_rate_limit', {
+      p_key: storeKey,
+      p_max: max,
+      p_window_secs: Math.floor(windowMs / 1000),
+    })
+    if (error) throw error
+    return data // true = blocked
+  } catch {
+    return inMemoryRateLimit(storeKey, max, windowMs)
+  }
 }
 
 // ── Input length validation ───────────────────────────────────────────────────
@@ -49,3 +66,38 @@ export function escHtml(str) {
     .replace(/"/g, '&quot;')
     .replace(/'/g, '&#x27;')
 }
+
+/*
+SUPABASE_SETUP — run once in the Supabase SQL editor:
+
+CREATE TABLE IF NOT EXISTS rate_limits (
+  key text PRIMARY KEY,
+  count integer NOT NULL DEFAULT 1,
+  window_start timestamptz NOT NULL DEFAULT now()
+);
+
+CREATE OR REPLACE FUNCTION check_rate_limit(p_key text, p_max int, p_window_secs int)
+RETURNS boolean
+LANGUAGE plpgsql
+AS $$
+DECLARE
+  v_count integer;
+BEGIN
+  INSERT INTO rate_limits (key, count, window_start)
+  VALUES (p_key, 1, now())
+  ON CONFLICT (key) DO UPDATE SET
+    count = CASE
+      WHEN rate_limits.window_start + (p_window_secs || ' seconds')::interval < now()
+      THEN 1
+      ELSE rate_limits.count + 1
+    END,
+    window_start = CASE
+      WHEN rate_limits.window_start + (p_window_secs || ' seconds')::interval < now()
+      THEN now()
+      ELSE rate_limits.window_start
+    END
+  RETURNING rate_limits.count INTO v_count;
+  RETURN v_count > p_max;
+END;
+$$;
+*/

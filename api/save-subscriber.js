@@ -3,7 +3,7 @@ import { rateLimit, truncate } from './_security.js'
 
 export default async function handler(req, res) {
   if (req.method !== 'POST') return res.status(405).end()
-  if (rateLimit(req, 'subscribe', { max: 5, windowMs: 60 * 60 * 1000 }))
+  if (await rateLimit(req, 'subscribe', { max: 5, windowMs: 60 * 60 * 1000 }))
     return res.status(429).json({ error: 'Too many requests.' })
 
   const { email, name } = req.body || {}

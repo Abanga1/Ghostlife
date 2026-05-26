@@ -56,7 +56,7 @@ export default async function handler(req, res) {
   }
 
   if (req.method === 'POST') {
-    if (rateLimit(req, 'portal', { max: 10, windowMs: 60 * 60 * 1000 }))
+    if (await rateLimit(req, 'portal', { max: 10, windowMs: 60 * 60 * 1000 }))
       return res.status(429).json({ error: 'Too many requests.' })
 
     const { email, words } = req.body || {}
