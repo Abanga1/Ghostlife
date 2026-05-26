@@ -1,20 +1,41 @@
 import React from 'react'
 import { Link, useParams, Navigate } from 'react-router-dom'
+import { Helmet } from 'react-helmet-async'
 import { ARTICLES } from '../data/articles'
 import Footer from '../components/Footer'
 import SEO from '../components/SEO'
 
+const BASE_URL = 'https://ghostlifesyndrome.com'
 const ASSESSMENT_URL = 'https://ghostlifesyndrome.lemonsqueezy.com/checkout/buy/34856ebd-5d34-4e1b-9973-212f8ae74c4e'
 
 function formatDate(iso) {
   return new Date(iso).toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' })
 }
 
+function parseLinks(str) {
+  const regex = /\[([^\]]+)\]\(([^)]+)\)/g
+  const parts = []
+  let lastIndex = 0
+  let match
+  while ((match = regex.exec(str)) !== null) {
+    if (match.index > lastIndex) parts.push(str.slice(lastIndex, match.index))
+    const [, text, url] = match
+    if (url.startsWith('/')) {
+      parts.push(<Link key={match.index} to={url}>{text}</Link>)
+    } else {
+      parts.push(<a key={match.index} href={url} target="_blank" rel="noreferrer">{text}</a>)
+    }
+    lastIndex = regex.lastIndex
+  }
+  if (lastIndex < str.length) parts.push(str.slice(lastIndex))
+  return parts.length > 0 ? parts : str
+}
+
 function renderBody(text) {
   return text.split('\n\n').map((para, i) => {
     if (para.startsWith('**') && para.includes('.**\n')) {
-      const parts = para.split('\n')
-      return parts.map((line, j) => {
+      const lines = para.split('\n')
+      return lines.map((line, j) => {
         if (!line.trim()) return null
         if (line.startsWith('**')) {
           const boldEnd = line.indexOf('.**')
@@ -23,15 +44,15 @@ function renderBody(text) {
             const rest = line.slice(boldEnd + 3)
             return (
               <p key={`${i}-${j}`} className="article__para">
-                <strong>{bold}.</strong>{rest}
+                <strong>{bold}.</strong>{parseLinks(rest)}
               </p>
             )
           }
         }
-        return <p key={`${i}-${j}`} className="article__para">{line}</p>
+        return <p key={`${i}-${j}`} className="article__para">{parseLinks(line)}</p>
       })
     }
-    return <p key={i} className="article__para">{para}</p>
+    return <p key={i} className="article__para">{parseLinks(para)}</p>
   })
 }
 
@@ -41,6 +62,8 @@ export default function ArticlePage() {
 
   if (!article) return <Navigate to="/blog" replace />
 
+  const articleUrl = `${BASE_URL}/blog/${article.slug}`
+
   return (
     <>
       <SEO
@@ -48,6 +71,25 @@ export default function ArticlePage() {
         description={article.metaDescription}
         path={`/blog/${article.slug}`}
       />
+      <Helmet>
+        <meta property="og:type" content="article" />
+        <meta property="article:published_time" content={article.date} />
+        <meta property="article:author" content="Isaac" />
+        <script type="application/ld+json">{JSON.stringify({
+          '@context': 'https://schema.org',
+          '@type': 'Article',
+          headline: article.title,
+          description: article.metaDescription,
+          datePublished: article.date,
+          dateModified: article.date,
+          author: { '@type': 'Person', name: 'Isaac', url: BASE_URL },
+          publisher: { '@type': 'Organization', name: 'Ghost Life Syndrome', url: BASE_URL },
+          url: articleUrl,
+          mainEntityOfPage: articleUrl,
+          image: `${BASE_URL}/og-image.png`,
+        })}</script>
+      </Helmet>
+
       <nav className="page-nav">
         <div className="container">
           <Link to="/blog" className="page-nav__back">← All articles</Link>

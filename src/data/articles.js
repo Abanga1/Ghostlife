@@ -280,6 +280,315 @@ The quiz takes four minutes. Your result tells you which stage you're in and wha
     ],
   },
   {
+    slug: "why-do-i-feel-empty-inside",
+    title: "Why Do I Feel Empty Inside?",
+    metaDescription: "Emptiness that isn't depression, grief, or burnout. Here's what this specific state is, where it comes from, and what it actually takes to change.",
+    date: "2026-05-19",
+    readTime: "7 min read",
+    intro: "The word empty is what people use when they've run out of more specific words. You reach for a feeling and it isn't there. You do something that should matter and it doesn't land. You try to locate what you want and the signal doesn't arrive. Empty isn't sadness. It isn't depression. It's the absence of something that should be present — and the absence has been going on long enough that you're starting to think it might just be you.",
+    sections: [
+      {
+        heading: "It doesn't feel like what people think it feels like",
+        body: `Most people picture emptiness as a visible state. Someone withdrawn. Someone who can't get out of bed. Someone clearly struggling.
+
+That's not this. Functional emptiness — the kind most people with this feeling are carrying — looks like nothing from the outside. You meet your obligations. You participate in conversations. You show up to the things you're supposed to show up to. You even, occasionally, laugh.
+
+What's missing is the inside of it. The inner weight of experience. The sense that what you're doing is actually happening to you, rather than near you. You can describe your days accurately and feel nothing while you're describing them. You can tick off a list of things you did and not remember any of them mattering.
+
+This is not depression. Depression has a texture — weight, hopelessness, the inability to function. What you have is different. You function fine. The emptiness is in what the functioning produces.`,
+      },
+      {
+        heading: "Where it comes from",
+        body: `**Chronic self-suppression.**
+You have spent long enough not expressing what you actually think, want, or feel — across enough situations and enough time — that the system that generates those responses has learned to throttle itself. The signal comes, nothing happens, the system learns to generate less signal. This is not a failure of character. It's an efficient adaptation to an environment that consistently didn't have room for what you produced.
+
+**A life that got managed rather than lived.**
+At some point you moved into management mode. The life became something to maintain rather than something to inhabit. Career on a track that made sense. Relationship sustained by momentum. Obligations that organised your time without your ever choosing to let them. When nothing around you was actually chosen from a felt sense of who you are, the inner life that responds to chosen things goes quiet.
+
+**Something that was never processed.**
+Emptiness sometimes develops as a seal. Something happened — a loss, a version of the future that closed, a version of yourself that didn't survive a transition — and rather than moving through it, the system closed over it. The seal works, but it requires closing around a lot else too. The emptiness is sometimes the cost of the protection.`,
+      },
+      {
+        heading: "What makes it worse",
+        body: `Stimulation. The automatic response to inner emptiness is to fill it from the outside — more content, more activity, more social noise. Stimulation and emotional aliveness are not the same thing. You can be very busy and very empty simultaneously. The busyness often makes it harder to notice the emptiness, which is useful in the short term and corrosive over years.
+
+Waiting. Most people wait for the emptiness to pass — assuming it's circumstantial, that it will shift when the job does, or the relationship, or the season. Emptiness sustained by the mechanisms above does not pass on its own. It requires a specific kind of movement to close.
+
+The analysis trap. The person with intellectual capability has one failure mode here: they analyse the emptiness into an interesting problem. They read about it. They build frameworks for it. They talk about it. This keeps engagement at the level of the mind. The mind can describe the emptiness with precision while the emptiness continues completely unchanged.`,
+      },
+      {
+        heading: "What emptiness is actually pointing to",
+        body: `The emptiness isn't random. It has a source. Specifically, it's pointing to the gap between the life you're living and the inner experience that was supposed to accompany it.
+
+The felt sense of living — the quality that makes your days feel like they belong to you — depends on certain conditions being present. Genuine choice. Honest self-knowledge. At least some degree of emotional space. When those conditions have been missing for a long time, the felt sense of living starts to thin. Not because something is wrong with you, but because the conditions for it are gone.
+
+The emptiness is the signal. Not a diagnosis, not a character flaw — a signal that the inner life has withdrawn its participation from a life that isn't quite the right fit anymore.
+
+There are five recognisable stages to this kind of disconnection, each with a different root and a different path forward. If you recognise the [feeling of just existing](/blog/feeling-like-youre-just-existing-not-living), you're likely already somewhere on that map.`,
+      },
+      {
+        heading: "The first step",
+        body: `The Ghost Life Syndrome quiz asks 20 questions about how you're experiencing your life right now. Not a personality test, not a mood category — a map. Your result tells you which stage your disconnection is in and what that specific stage requires to move through.
+
+If reading this felt like recognition rather than information, that matters. Take the quiz first. Four minutes.`,
+      },
+    ],
+  },
+  {
+    slug: "living-life-on-autopilot",
+    title: "Living Your Life on Autopilot — What It Is and How to Stop",
+    metaDescription: "Autopilot isn't laziness. It's a mode you learned because it worked. Here's what keeps you running on it and what it costs you year after year.",
+    date: "2026-05-21",
+    readTime: "8 min read",
+    intro: "Autopilot is efficient. You learn it when life becomes too demanding to meet consciously — when the obligations stack up and the mind figures out it can run most of them without you. You stop making choices about things you've already decided. You stop registering experiences you've already had. It works. The problem is that it doesn't switch off. You carry a mode you learned for one set of conditions into every other area of your life, until the day you notice that you've spent years in it and aren't sure how to come back.",
+    sections: [
+      {
+        heading: "How you got into it",
+        body: `Autopilot develops in response to pressure. At some point — a demanding job, a relationship transition, a sustained period of too-much — you learned to operate on a reduced level of presence. To function without fully engaging. To be in the room without fully arriving.
+
+This was adaptive. It allowed you to meet the demands without being consumed by them. The system figured out that if it ran the routine, you could conserve what was left.
+
+The problem is that adaptive modes are sticky. Once you're running on autopilot for long enough, it becomes the default — not just in the demanding situations that created it, but everywhere. The same low-engagement mode that helped you survive a particular season gets applied to your whole life. You're not choosing it anymore. It's just how you are.`,
+      },
+      {
+        heading: "What life on autopilot actually looks like",
+        body: `The days have a blur to them. You know what you did last Tuesday in the same way you know what happened in a film you've seen twice — the events are there, but none of them registered as experiences at the time.
+
+You make choices by default. What to eat, where to spend your time, what to agree to — these are not decisions, they're habits. The question of what you actually want stopped appearing some years back.
+
+Other people's enthusiasm seems foreign. You watch someone excited about a plan and feel nothing in particular. Not cynicism, not envy — just nothing.
+
+You arrive at the end of a week, or a year, and have the uneasy sense that it went by without you. Not because you were busy, though you may have been. Because you weren't quite there while it was happening.
+
+This is closely related to what people describe as [going through the motions](/blog/how-to-stop-going-through-the-motions) — the two states often develop together.`,
+      },
+      {
+        heading: "What it costs",
+        body: `The cost of autopilot isn't dramatic. That's what makes it easy to ignore. You're not failing. You're not visibly struggling. Life is, by most external measures, fine.
+
+What it costs is the interior. The felt sense of your own life. The quality of presence that makes days feel like they belong to you rather than like events you witnessed. The connection between what you're doing and why — which slowly, under autopilot, becomes impossible to find.
+
+It also costs the version of you that has preferences, that knows what it wants, that gets genuinely excited about something. That part runs on engagement. When engagement is consistently low, that part goes quieter. After years on autopilot, people often reach a moment where they try to locate what they genuinely want — and find they can't. Not because there's nothing there. Because the access point has closed.`,
+      },
+      {
+        heading: "Why you can't just decide to stop",
+        body: `The instinct is to treat autopilot as a decision — something you can turn off the same way you turned it on. Try harder. Be more present. Pay more attention.
+
+This doesn't work because autopilot isn't a decision. It's a mode. The nervous system learns it, encodes it, and runs it without requiring your agreement. You can't decide your way out of a mode any more than you can decide your way out of a deeply learned habit.
+
+What breaks autopilot isn't willpower. It's friction. Small, specific disruptions to the patterns that maintain it. A conversation where you say something true that you would normally leave out. A choice that goes against the default. A question you ask yourself and actually wait for the answer to. These are not dramatic. They don't require blowing up your life. But they have to be real.`,
+      },
+      {
+        heading: "Where to start",
+        body: `Autopilot has different roots at different stages of disconnection. For some people, it started early and has been running so long that the life they're in was largely built on it. For others, it's more recent — a response to a specific period that never quite ended.
+
+The Ghost Life Syndrome quiz places you in one of five stages, each with a specific version of this problem and a specific quality of movement that begins to break it. Four minutes. Your result tells you where you actually are.`,
+      },
+    ],
+  },
+  {
+    slug: "why-cant-i-feel-anything-anymore",
+    title: "Why Can't I Feel Anything Anymore?",
+    metaDescription: "Not sad, not happy — just flat. When emotional response stops arriving the way it used to, there's a specific reason. Here's what it is and what changes it.",
+    date: "2026-05-22",
+    readTime: "7 min read",
+    intro: "Not numb exactly. Not depressed. You still feel some things — impatience, tiredness, occasionally something like relief. But the full bandwidth of emotional experience — the kind where something actually lands, where you look forward to something with real anticipation, where a moment moves you — that's been missing for a while. You don't know when it went. You've been waiting for it to come back. It hasn't.",
+    sections: [
+      {
+        heading: "What actually went missing",
+        body: `It's not all feeling. That's what makes this confusing. You still react. You still have preferences, however muted. You're not entirely shut down.
+
+What went missing was the upper register. The full arrival of an experience. The sense of things genuinely mattering — not as a concept but as a felt reality. The highs flattened first. Then the lows followed. You're left with a narrow middle band. Functional. Uninspiring. Yours, apparently.
+
+You know something is different because you remember what it was like before. Or you watch other people experiencing things fully — grief, joy, anticipation — and you know, intellectually, that what you're feeling in the same situation is much less than what they are. It reads like a signal. You're not sure what it's pointing to.`,
+      },
+      {
+        heading: "Why it happens",
+        body: `**The system learned not to generate what wouldn't be expressed.**
+Emotional experience exists in context — in the space between an inner state and the possibility of expressing or acting on it. When you spend long enough in situations where emotional expression isn't available, isn't safe, or consistently produces nothing, the nervous system becomes efficient. It stops generating as much. Not as a decision — as an adaptation. The signal gets throttled over time.
+
+**The life around you stopped being chosen.**
+Genuine emotional response is connected to genuine stake. When what you're doing was actually chosen by you — when your job, your relationships, your direction reflect something real about who you are — you have genuine stake in how it goes. When those things accumulated by default or by momentum, the emotional response to them thins. The system that generates feeling is connected to the sense of investment. Without genuine choice, the feeling that should accompany experience doesn't fully arrive.`,
+      },
+      {
+        heading: "The things that don't work",
+        body: `Waiting for something to feel different before doing anything differently. The logic is: once something compelling comes along, the feeling will return. But genuine interest and emotional aliveness aren't waiting somewhere — they're produced by engagement. If you're waiting for feeling to appear before engaging, both sides feed the same flatness.
+
+Seeking intense stimulation to break through. Extreme experiences, substances, dramatic circumstances. These bypass the problem rather than solving it. The system responds to intensity, but the response is hollow — a reaction rather than genuine feeling.
+
+Analysing it extensively. Working out why you feel nothing, in great detail, becomes its own occupation. The mind can produce elaborate understanding of the flatness while the flatness continues unchanged.
+
+This is a specific version of what people describe as [emotional numbness without depression](/blog/feeling-emotionally-numb-but-not-depressed) — the two articles map slightly different angles of the same territory.`,
+      },
+      {
+        heading: "What it's connected to",
+        body: `The inability to feel is not a disorder. It's a response. Specifically, it's the response of a system that learned, through experience, that generating full emotional response had no outlet — and has been running on reduced capacity for long enough that it's become the default.
+
+The path back isn't through the mind. It's through genuine re-entry to your own experience. Not performing engagement but actually choosing something, for the first time in a while, based on what you want — not what makes sense, not what's next, not what you should want. That signal, when genuine, is what starts to wake the system back up.
+
+What re-entry looks like depends on where you are. There are five stages to this kind of disconnection, and what works at Stage 2 can make things worse at Stage 4.`,
+      },
+      {
+        heading: "Finding your way back in",
+        body: `The Ghost Life Syndrome quiz identifies which stage of disconnection you're in — the specific pattern keeping the feeling offline and what that stage requires to change. It's 20 questions about what you're actually experiencing. Your result is a map.
+
+If you've been waiting for the feeling to come back on its own, it won't. But that's not a sentence about who you are. It's a sentence about what this kind of thing requires.`,
+      },
+    ],
+  },
+  {
+    slug: "how-to-reconnect-with-yourself",
+    title: "How to Reconnect With Yourself When You've Gone Quiet Inside",
+    metaDescription: "Reconnecting with yourself doesn't require a retreat or a dramatic change. It requires knowing where the disconnection actually happened — which most people skip.",
+    date: "2026-05-23",
+    readTime: "8 min read",
+    intro: "Most advice about reconnecting with yourself tells you to journal, spend time in nature, try a new hobby. This advice isn't wrong in isolation. It's just not specific enough to be useful. Reconnecting requires knowing where the disconnection actually happened — because the disconnection has a location and a cause, and what you do about it depends entirely on those two things. Walking in nature when what's needed is a difficult conversation will feel like something and produce nothing.",
+    sections: [
+      {
+        heading: "What reconnecting actually means",
+        body: `It doesn't mean becoming a better version of yourself. It doesn't mean optimising, growing, or finally getting it together. Those framings are useful for other things. They're not useful here.
+
+Reconnecting means returning to the version of you that got sidelined. The one who had preferences without qualifying them, who took up space without apology, who knew — without having to think about it — what it wanted. That version didn't disappear. It went quiet because the conditions stopped supporting it. Sometimes because it consistently wasn't welcome. Sometimes because it kept getting disappointed. Sometimes simply because the life it was supposed to inhabit got filled up with other things.
+
+Reconnecting is the process of locating where that happened and creating enough space for that version to come forward again. It is not a grand gesture. It's a series of small honest movements.`,
+      },
+      {
+        heading: "Why generic advice fails",
+        body: `Find what brings you joy. Make time for yourself. Listen to your gut.
+
+This advice fails not because it's wrong but because it assumes the machinery is functional. If you know what brings you joy, making time for it is straightforward. But if the problem is that you've lost access to what you want — that when you try to locate your own preferences, you get a blank — then "find what brings you joy" is like telling someone who can't see to look for the light.
+
+Reconnecting at Stage 2, where the performance of okay-ness has become so polished it crowds out genuine experience, requires different movement than reconnecting at Stage 4, where the disconnection has been running so long that nothing feels like it belongs to you. Applying the same generic advice to both produces nothing — and usually confirms the person's suspicion that something is more fundamentally wrong with them than with the advice.`,
+      },
+      {
+        heading: "The question most people skip",
+        body: `Where, specifically, did you stop being yourself?
+
+Not a general drift — a location. Was it a particular relationship, where you learned to perform a version of yourself that was acceptable? A career path that made complete sense to everyone except the part of you that would have chosen differently? After a specific loss, when closing around something required closing around a lot else?
+
+Most people trying to reconnect skip this question because sitting with it is uncomfortable. It requires looking at specific choices and specific adaptations with honesty rather than with softening. But without locating where the disconnection happened, reconnecting efforts get applied to the wrong place. You address the surface and leave the source untouched.`,
+      },
+      {
+        heading: "What real reconnection looks like in practice",
+        body: `Small, honest re-entries. Not dramatic changes — specific moments where you choose to actually be in what you're doing.
+
+One conversation where you say something true that you would normally filter or soften — not because it's therapeutic but because it's accurate. One decision made from genuine preference rather than default or logic. One question about what you actually want, followed by enough silence that an actual answer has room to arrive.
+
+These are not impressive. They don't look like reconnection from the outside. But they work — because they restore, briefly and specifically, the sense that you are a person inside your own life rather than someone managing it from a distance.
+
+That sense, once it appears, can be built on. It's the same mechanism described in [how to stop going through the motions](/blog/how-to-stop-going-through-the-motions) — small, real re-entries compound over time.`,
+      },
+      {
+        heading: "Starting with your stage",
+        body: `The Ghost Life Syndrome identifies five stages of disconnection from your own life. Each stage has a specific quality of disconnection and a specific kind of re-entry that closes it. What starts reconnection at Stage 1 is different from what's needed at Stage 3 or Stage 4 — and applying the wrong approach to the wrong stage extends the disconnection rather than closing it.
+
+The quiz places you accurately in one of the five stages. Four minutes. If you've been trying to reconnect and not getting anywhere, the missing piece is usually stage-specificity.`,
+      },
+    ],
+  },
+  {
+    slug: "feeling-like-an-outsider-in-your-own-life",
+    title: "Feeling Like an Outsider in Your Own Life",
+    metaDescription: "You're in the room, doing the right things — but it feels like someone else's life. Here's what that persistent sense of not-quite-belonging is actually about.",
+    date: "2026-05-25",
+    readTime: "7 min read",
+    intro: "Not belonging in other places is a recognisable feeling — you can name the place, name the reason, decide to leave or adapt. But not belonging in your own life is harder to hold. Your name is on everything. Your face is in the photos. You made the choices that produced this. And yet there's a persistent sense that you're a visitor — present, going through the motions, but not quite invested in what's supposed to be yours.",
+    sections: [
+      {
+        heading: "What this is and what it isn't",
+        body: `It isn't imposter syndrome. Imposter syndrome is about fearing you'll be found out — that people will discover you don't belong in a role or a room. What you're describing is different: not a fear of being caught, but a settled sense that the person doing your life is slightly not you.
+
+It isn't depression, though the two can coexist. Depression has a specific texture of hopelessness and weight. This is more like a low-grade foreignness. Things happen. You process them. But nothing quite lands as yours.
+
+And it isn't necessarily a sign that you're in the wrong life. Some people feel this while living exactly the life they would have chosen. The outsider feeling isn't always about the circumstances. It's about the relationship between you and the circumstances — and that relationship can deteriorate regardless of whether the circumstances are good.`,
+      },
+      {
+        heading: "How it develops",
+        body: `Most people arrive at this feeling through a series of reasonable adaptations. You adjusted yourself to a relationship, a workplace, an expectation — sensibly, appropriately, because that was what the situation required. You did it in the next situation too. And the next.
+
+At some point, the accumulated weight of those adjustments means the person operating inside your life is a version of you built for every context except the one you're actually in. The person who showed up, who met the requirements, who made it work, has become the default. But that person is a construction. Living inside a construction you built for other people's comfort produces exactly this feeling: present, but not at home.`,
+      },
+      {
+        heading: "The specific texture of it",
+        body: `You look at your own life — the apartment, the relationship, the job, the version of your week — and nothing inside you responds to it. Not negatively. Just not with anything.
+
+You find yourself most relaxed, most like yourself, when no one is watching. Alone, or in very specific rare contexts, there's a version of you that feels more actual. Everywhere else, you're running the performance — and the performance is good, which is part of what makes this so quiet. Nobody knows.
+
+Plans feel like obligations rather than things you're part of. When they get cancelled, you feel relief — not because you needed rest, but because less performance is required.
+
+This overlaps with [feeling like you're watching your life from a distance](/blog/why-do-i-feel-like-im-watching-my-life-from-a-distance) — both states describe the gap between self and experience, approached from slightly different angles.`,
+      },
+      {
+        heading: "What it's signaling",
+        body: `The outsider feeling is not pathology. It's information. Specifically, it's information that the self who was supposed to inhabit this life has stepped back — far enough that you can feel the gap between where you are and where the real version of you is standing.
+
+That stepping-back happened for a reason. Something made it unsafe, or unrewarding, or simply unnecessary to be fully present. The system adapted. The outsider feeling is the cost of the adaptation — the message from whatever part of you stayed behind that it's still there, still waiting, and the distance has become uncomfortable.
+
+The path back is not about changing the circumstances. It's about closing the gap between the performed version and the real one.`,
+      },
+      {
+        heading: "The map forward",
+        body: `The Ghost Life Syndrome maps five stages of disconnection from your own life — from the first signs that something is draining to the moment where the performed life is no longer sustainable. The outsider feeling fits somewhere on this map, and where it fits determines what's actually needed.
+
+The quiz identifies your stage in four minutes. Not to label you, but to give you a specific starting point. The gap between you and your own life has a specific shape. The quiz names it.`,
+      },
+    ],
+  },
+  {
+    slug: "what-burnout-actually-feels-like",
+    title: "What Burnout Actually Feels Like (And When It's Something Else)",
+    metaDescription: "Burnout is overextension. But many people who think they're burned out are carrying something different — something that rest doesn't touch. Here's how to tell.",
+    date: "2026-05-26",
+    readTime: "8 min read",
+    intro: "Burnout has become the word for a lot of different things. Exhausted from overwork — yes, that's burnout. But there's another state that often gets called burnout because it looks similar from the outside and because there isn't a better word yet. It doesn't come from doing too much. It comes from spending a long time doing the wrong things, or doing the right things without being inside them. And it doesn't improve with rest. If you've taken the break and come back exactly as you left, what you're carrying might not be burnout.",
+    sections: [
+      {
+        heading: "What burnout actually is",
+        body: `Burnout, in its original clinical description, is a state of chronic exhaustion, cynicism, and reduced efficacy — produced by sustained overextension without adequate recovery. The resource tank runs empty. The system shuts down to protect itself.
+
+It has a particular texture: bone-deep tiredness, a shortening of patience, the sense that everything requires more effort than it should. You used to care about the work and now you don't. You used to have capacity and now you're running on nothing.
+
+The important thing about burnout: it responds to rest. Real rest, adequate recovery, removal from the source of the overextension — these reduce it. You come back from the break less depleted than you left. The recovery has a direction.`,
+      },
+      {
+        heading: "What's being confused with it",
+        body: `The state that gets confused with burnout looks similar from the outside: low energy, low motivation, difficulty caring about things, a general flatness. People call it burnout because it's the closest available word.
+
+But it has a different source and a different texture. It doesn't come from overextension — it comes from disconnection. From having lived, for some time, in a way that's outrun your own inner life. Completing days without inhabiting them. Performing versions of yourself that work for every context except the one where you're actually supposed to be present.
+
+The flatness isn't from the tank running empty. The tank is running fine. The problem is that what's being produced by the tank is going into something that doesn't feel like yours.`,
+      },
+      {
+        heading: "How to tell the difference",
+        body: `The single most reliable test: does rest help?
+
+If you take a week off and come back with more resource — if the depletion was the main thing and rest moved it — that points to burnout in the original sense. The direction of recovery is there. It just needs time and removal from the source.
+
+If you take the week off and come back exactly the same — same flatness, same sense that nothing lands, same feeling of moving through days rather than being in them — rest didn't touch it. Because rest doesn't touch disconnection. You can be fully rested and completely hollow simultaneously.
+
+The other distinguishing feature: burnout typically has a source you can identify. The job, the workload, the pace. Disconnection tends to be more diffuse — it's not one thing, it's the whole quality of how you're inhabiting your life. Removing any one source doesn't change it because the source isn't one thing.`,
+      },
+      {
+        heading: "Why the distinction matters",
+        body: `Getting the diagnosis wrong means applying the wrong fix.
+
+If it's burnout, the fix is recovery — rest, boundary-setting, reduced demand, adequate sleep. These are achievable and they work.
+
+If it's disconnection, these things don't work. People who misidentify disconnection as burnout take the break, come back unchanged, and conclude that they are more profoundly broken than they thought. They try harder versions of recovery — longer breaks, sabbaticals, moving cities. They continue to find the flatness waiting for them on the other side.
+
+The problem was never the depletion. It was the relationship between you and the life you're living. No amount of rest closes that gap. The [emotional disconnection](/blog/what-is-emotional-disconnection) article goes into this in more depth.`,
+      },
+      {
+        heading: "If the rest didn't work",
+        body: `The Ghost Life Syndrome is specifically about the second state — the disconnection that doesn't respond to the standard fixes, that isn't depression, that isn't burnout, but that has a recognisable structure and a specific path through it.
+
+There are five stages to how this disconnection develops. Each one has a different quality and a different way forward. If what you've been calling burnout has been resistant to every burnout fix you've tried, you're probably in one of the five stages. The quiz places you in four minutes.
+
+Not because naming it changes everything. But because you cannot navigate territory without a map of the specific territory you're in.`,
+      },
+    ],
+  },
+  {
     slug: "what-is-emotional-disconnection",
     title: "What Is Emotional Disconnection — And How Do You Actually Recover From It?",
     metaDescription:
