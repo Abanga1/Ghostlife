@@ -84,7 +84,7 @@ The book maps out exactly what each stage looks like from the inside, why people
 
 Not advice. Not a framework. A map.
 
-[Get the book ($17) →](https://ghostlifesyndrome.lemonsqueezy.com/checkout/buy/61f7d117-9bee-48b0-ab43-c667f95f4ebc)
+[Get the book ($17) →](https://buy.stripe.com/7sY7sLdEH8SD0YY8cM67S00)
 
 — Isaac
 
@@ -108,7 +108,7 @@ The Ghost Life Syndrome isn't a diagnosis. It's a description. And for a lot of 
 
 If you haven't picked up the book yet, this is a decent moment to do it.
 
-[Get it here — $17 →](https://ghostlifesyndrome.lemonsqueezy.com/checkout/buy/61f7d117-9bee-48b0-ab43-c667f95f4ebc)
+[Get it here — $17 →](https://buy.stripe.com/7sY7sLdEH8SD0YY8cM67S00)
 
 — Isaac
 
@@ -133,7 +133,7 @@ No calls. No camera. Written, thorough, and fast — usually within 72 hours.
 
 [→ Get the written assessment](https://ghostlifesyndrome.com)
 
-*(Replace the link above with your LemonSqueezy assessment product URL once it's live.)*
+*(Replace the link above with your Stripe assessment Payment Link URL.)*
 
 If you already have the book and want that next level of clarity, this is where it comes from.
 
@@ -159,7 +159,7 @@ The book isn't a push to try harder. It's a map of why certain efforts keep fail
 
 If that resonates, you haven't missed your window to pick it up.
 
-[The Ghost Life Syndrome — $17 →](https://ghostlifesyndrome.lemonsqueezy.com/checkout/buy/61f7d117-9bee-48b0-ab43-c667f95f4ebc)
+[The Ghost Life Syndrome — $17 →](https://buy.stripe.com/7sY7sLdEH8SD0YY8cM67S00)
 
 — Isaac
 
@@ -178,7 +178,7 @@ This is the last email in this sequence. After this I'll only write when I have 
 A few things worth knowing:
 
 **The book ($17)** — still there if you want it.  
-[→ ghostlifesyndrome.lemonsqueezy.com/checkout/buy/61f7d117-9bee-48b0-ab43-c667f95f4ebc](https://ghostlifesyndrome.lemonsqueezy.com/checkout/buy/61f7d117-9bee-48b0-ab43-c667f95f4ebc)
+[→ buy.stripe.com](https://buy.stripe.com/7sY7sLdEH8SD0YY8cM67S00)
 
 **The written assessment ($57)** — if you want your specific situation mapped.  
 [→ ghostlifesyndrome.com](https://ghostlifesyndrome.com)
@@ -196,7 +196,7 @@ Thanks for taking the quiz.
 
 ## Notes for Isaac
 
-- Replace all `(Replace the link above...)` placeholders once those products are live on LemonSqueezy.
+- Replace all `(Replace the link above...)` placeholders with the Stripe Payment Link URLs.
 - In Brevo: go to Automation → Create workflow → "Contact added to a list" trigger. Add each email as a "Send email" step with the delay set.
 - Subject lines are intentionally low-hype. They get opened because they're direct, not because they promise something.
 - Do not add unsubscribe text manually — Brevo adds a compliant footer automatically.

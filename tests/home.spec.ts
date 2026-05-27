@@ -6,7 +6,7 @@ test.describe('Home page', () => {
     await expect(page.getByRole('heading', { level: 1 })).toBeVisible()
     const buyLink = page.getByRole('link', { name: /get the book/i }).first()
     await expect(buyLink).toBeVisible()
-    await expect(buyLink).toHaveAttribute('href', /lemonsqueezy/)
+    await expect(buyLink).toHaveAttribute('href', /buy\.stripe\.com/)
   })
 
   test('nav signs button scrolls to signs section', async ({ page }) => {

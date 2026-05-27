@@ -36,7 +36,7 @@ test.describe('Blog', () => {
     await expect(quizLink).toHaveAttribute('href', '/#quiz')
 
     const bookLink = page.getByRole('link', { name: /get the book/i })
-    await expect(bookLink).toHaveAttribute('href', /lemonsqueezy/)
+    await expect(bookLink).toHaveAttribute('href', /buy\.stripe\.com/)
   })
 
   test('unknown slug redirects to blog index', async ({ page }) => {
